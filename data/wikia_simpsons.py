@@ -166,7 +166,7 @@ def parse_character(page, wiki, character):
                 s = n.strip() # never occurs
             else:
                 try:
-                    print("Error parsing voiced by: "+ n.__unicode__())
+                    print("Error parsing voiced by: "+ n.__unicode__() +" in "+ page.title.text, file=sys.stderr)
                 except:
                     pass
             if s:
