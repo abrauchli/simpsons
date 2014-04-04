@@ -30,6 +30,7 @@ import sys
 import mwparserfromhell
 import json
 from bs4 import BeautifulSoup as BS
+from datetime import date
 
 characters = []
 episodes = []
@@ -133,10 +134,15 @@ def parse_character(page, wiki, character):
             elif isinstance(n, str):
                 s = n.strip() # never occurs
             elif isinstance(n, mwparserfromhell.nodes.template.Template):
-                try:
-                    print("Error parsing age: "+ n.__unicode__())
-                except:
-                    pass
+                #{{Birthdate|1976|9|18}}
+                if n.name.matches('Birthdate'):
+                    d = date(int(n.get(1).value.strip_code()), int(n.get(2).value.strip_code()), int(n.get(3).value.strip_code()))
+                    s = int((date.today() - d).days / 365)
+                else:
+                    try:
+                        print("Error parsing age: "+ n.__unicode__() +" in "+ page.title.text, file=sys.stderr)
+                    except:
+                        pass
             else:
                 print("Uncovered age case for "+ page.title.text, file=sys.stderr)
             if s:
