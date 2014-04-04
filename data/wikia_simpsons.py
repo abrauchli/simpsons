@@ -153,7 +153,7 @@ def parse_character(page, wiki, character):
         for n in t.get('voiced by').value.nodes:
             s = ''
             if isinstance(n, mwparserfromhell.nodes.text.Text):
-                s = n.value.strip()
+                s = n.value.strip(' ,\r\n\t')
             elif isinstance(n, mwparserfromhell.nodes.tag.Tag):
                 voiced.append(' '.join(vtmp))
                 vtmp = []
@@ -169,7 +169,8 @@ def parse_character(page, wiki, character):
                     print("Error parsing voiced by: "+ n.__unicode__())
                 except:
                     pass
-            vtmp.append(s)
+            if s:
+                vtmp.append(s)
         if vtmp:
             voiced.append(' '.join(vtmp))
 
@@ -178,7 +179,7 @@ def parse_character(page, wiki, character):
         img = img[0].title.strip_code()
     c = {
         'page': page.title.text,
-        'name': t.has('name') and t.get('name').value.strip_code() or page.title.text,
+        'name': t.has('name') and t.get('name').value.strip_code().strip() or page.title.text,
         'image': img,
         'gender': ((t.has('gender') and t.get('gender').value.matches("{{Male}}")) and "M" or "W"),
         'isAlive': t.has('status') and t.get('status').value.matches("{{Alive}}"),
