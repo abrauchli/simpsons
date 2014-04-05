@@ -164,7 +164,11 @@
         	</li>
         	</ul>
         </li>
-        
+        </ul>
+        <h3>Interesting Development Findings</h3>
+        <ul>
+            <li>While parsing the Simpsons wikia pages, we found that "February" was misspelled as "Febuary" a few times. Our date parser also found other typos in month names. All found typos were corrected upstream.</li>
+            <li>Parsing the XML wikia data dump, we noted that images or their URLs are not stored. The wiki file name (File:Foo.png) had to be retrieved/resolved to an image URL using the site's API service.</li>
         </ul>
     </div>
 </div>
