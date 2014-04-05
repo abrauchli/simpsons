@@ -29,12 +29,14 @@ THE SOFTWARE.
 import sys
 import mwparserfromhell
 import json
+import urllib
 from bs4 import BeautifulSoup as BS
 from datetime import date
 
 characters = []
 episodes = []
 locations = []
+images = []
 
 month = {   'January':  '01',
             'February': '02',
@@ -75,6 +77,7 @@ def main():
     print('var episodes = '+ json.dumps(episodes, indent=ind, sort_keys=sk) +';')
     print('var characters = '+ json.dumps(characters, indent=ind, sort_keys=sk) +';')
     print('var locations = '+ json.dumps(locations, indent=ind, sort_keys=sk) +';')
+    print('var images = '+ json.dumps(resolve_images(), indent=ind, sort_keys=sk) +';')
 
 
 def isodate(dt):
@@ -116,7 +119,6 @@ def parse_location(page, wiki, location):
                 l['appearances'].append(t.get(1).value.strip_code())
 
     locations.append(l)
-
 
 def strip_tags(node):
     return [n for n in node.nodes if not isinstance(n, mwparserfromhell.nodes.tag.Tag)]
@@ -177,6 +179,8 @@ def parse_character(page, wiki, character):
     img = t.has('image') and t.get('image').value.filter_wikilinks()
     if img:
         img = img[0].title.strip_code()
+        images.append(img)
+
     c = {
         'page': page.title.text,
         'name': t.has('name') and t.get('name').value.strip_code().strip() or page.title.text,
@@ -201,6 +205,29 @@ def parse_character(page, wiki, character):
         # Only add characters with appearances in canonical episodes
         characters.append(c)
 
+def resolve_images():
+    res_img = {}
+    print("Fetching %d images" % len(images), file=sys.stderr)
+    while len(images):
+        img = []
+        while len(img) < 50 and len(images):
+            img.append(images.pop())
+
+        url = 'http://simpsons.wikia.com/api.php?action=query&titles='+ urllib.parse.quote('|'.join(img)) +'&prop=imageinfo&iiprop=url&format=json'
+        site = urllib.request.urlopen(url).read()
+        j = json.loads(site.decode())
+        for i in j['query']['pages'].items():
+            try:
+                if int(i[0]) < 0 and i[1].__contains__('missing'):
+                    print("Error: missing image "+ i[1]['title'], file=sys.stderr)
+                else:
+                    res_img[i[1]['title']] = i[1]['imageinfo'][0]['url']
+            except:
+                if i[1] and i[1].__contains__('title'):
+                    print("Error parsing image '%s'" % i[1]['title'], file=sys.stderr)
+                else:
+                    print("Error parsing image", file=sys.stderr)
+    return res_img
 
 if __name__ == '__main__':
     main()
