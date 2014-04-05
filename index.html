@@ -1,0 +1,172 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>We Are Family</title>
+<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/bootstrap.js"></script>
+
+<!-- Include the plugin's CSS and JS: -->
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+
+<script src="js/movie-network.js"></script>
+<link rel="stylesheet" href="css/movie-network.css"/>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.multiselect').multiselect();
+    for (var i = 1; i <= 100; i++) {
+		$('#characterSelect').append('<option value="' + i + '">' + i + '</option>');
+		$('#seasonSelect').append('<option value="' + i + '">' + i + '</option>');
+		$('#episodeSelect').append('<option value="' + i + '">' + i + '</option>');
+	}
+    $('#characterSelect').multiselect({
+    	includeSelectAllOption: true,
+    	enableFiltering: true,
+    	maxHeight: 150
+    });
+    $('#seasonSelect').multiselect({
+    	includeSelectAllOption: true,
+    	enableFiltering: true,
+    	maxHeight: 150
+    });
+    $('#episodeSelect').multiselect({
+    	includeSelectAllOption: true,
+    	enableFiltering: true,
+    	maxHeight: 150
+    });
+  });
+</script>
+<script>
+      // Sniff MSIE version
+      // http://james.padolsey.com/javascript/detect-ie-in-js-using-conditional-comments/
+      var ie = ( function() {
+        var undef,
+        v = 3,
+        div = document.createElement('div'),
+        all = div.getElementsByTagName('i');
+        while (
+         div.innerHTML='<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',all[0]
+        );
+        return v > 4 ? v : undef;
+      }() );
+
+      function takeAction() {
+        if( ie && ie < 9 ) {
+	  D3notok();
+        } else {
+          // Load D3.js, and once loaded do our stuff
+          var head = document.getElementsByTagName('head')[0];
+          var script = document.createElement('script');
+          script.type = 'text/javascript';
+	  script.src = "js/d3.v3.min.js";
+          script.addEventListener('load', D3ok, false);
+          script.onload = "D3ok();";
+	  head.appendChild(script);
+       }
+     }
+    </script>
+</head>
+<body onload="takeAction();">
+<h1>We are family!</h1>
+<ul class="nav nav-tabs" data-tabs="tabs" id="myTabs">
+    <li ><a data-toggle="tab" href="#Home">Home</a></li>
+    <li class="active"><a data-toggle="tab" href="#Simpsons">Simpsons</a></li>
+    <li><a data-toggle="tab" href="#Data">Data</a></li>
+    <li><a data-toggle="tab" href="#About">About</a></li>
+    <li><a data-toggle="tab" href="#Weekly">Weekly Report</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane" bgcolor="" id="Home">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <h3>Project 3</h3>
+            Description....
+        </div>
+        <div class="col-md-9">
+            <img src="images/full.jpg">
+        </div>
+    </div>
+</div>
+        
+    </div>
+    <div class="tab-pane active" id="Simpsons">
+    <div id="movieNetwork"></div>
+<div id="dashboard">   
+<div class="panel-group" id="accordion"> 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          Character
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+        Charecter: <select id="characterSelect" multiple="multiple"></select>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+          Season
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+      <div class="panel-body">
+        Season: <select id="seasonSelect" multiple="multiple"></select>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+          Episode
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+      <div class="panel-body">
+        Episode: <select id="episodeSelect" multiple="multiple"></select>
+      </div>
+    </div>
+  </div>
+</div><!--dashboard-->
+
+        </div>
+	    </div><!--Simpsons-->
+    <div class="tab-pane" id="Data">
+        <h3>Data</h3>
+
+    </div>
+    <div class="tab-pane" id="About">
+        <h3>About</h3>
+
+    </div>
+    <div class="tab-pane" id="Weekly">
+        <h3>Weekly Report</h3>
+        <ul>
+        <li><h5>Week 1</h5>
+        	<ul>
+        	<li>Parse the data from wikia</li>
+        	<li>Design the layout<br>
+	        	<img width="900px" src="images/layout_04_02.png">
+        	</li>
+        	</ul>
+        </li>
+        
+        </ul>
+    </div>
+</div>
+</body>
+</html>

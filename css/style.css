@@ -1,0 +1,15 @@
+#dashboard{
+	width: 500px;
+	height: 500px;
+	margin-top: 10px;
+}
+.panel-body{
+	height: 300px;
+}
+
+#movieNetwork{
+    float: top;
+    position: absolute;
+    margin-top: 0px;
+	margin-left: 505px;
+}
