@@ -81,7 +81,7 @@ def main():
     print('var episodes = '+ json.dumps(episodes, indent=ind, sort_keys=sk) +';')
     print('var characters = '+ json.dumps(characters, indent=ind, sort_keys=sk) +';')
     print('var locations = '+ json.dumps(locations, indent=ind, sort_keys=sk) +';')
-    # print('var images = '+ json.dumps(resolve_images(), indent=ind, sort_keys=sk) +';')
+    print('var images = '+ json.dumps(resolve_images(), indent=ind, sort_keys=sk) +';')
 
 
 def isodate(dt):
