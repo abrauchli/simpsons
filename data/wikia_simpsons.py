@@ -78,6 +78,7 @@ def main():
     sk = False #True
     replace_appearances(characters)
     replace_appearances(locations)
+    character_coocurrance()
     print('var episodes = '+ json.dumps(episodes, indent=ind, sort_keys=sk) +';')
     print('var characters = '+ json.dumps(characters, indent=ind, sort_keys=sk) +';')
     print('var locations = '+ json.dumps(locations, indent=ind, sort_keys=sk) +';')
@@ -238,6 +239,30 @@ def replace_appearances(dic):
     # remove items with no appearances
     for k in delkeys:
         del dic[k]
+
+
+def character_coocurrance():
+    ep = {} # character (indices) per episode
+    chars = [k for k in characters.keys()] # build character indices from dict keys
+    for i, c in enumerate(chars):
+        for a in characters[c]['appearances']:
+            if a in ep:
+                ep[a].append(i)
+            else:
+                ep[a] = [i]
+
+    n = len(chars)
+    cooc = [[0] * n for i in range(n)] # nxn matrix
+    for episode in ep.keys():
+        for character1 in ep[episode]:
+            for character2 in ep[episode]:
+                if not character1 == character2:
+                    cooc[character1][character2] += 1
+    sorted_cooc = [None]*n
+    for cidx, c in enumerate(cooc):
+        # sorted co-occurance as (char, # co-occurances) items
+        # only characters with > 0 co-occurances listed
+        characters[chars[cidx]]['cooc'] = [[chars[i[0]], i[1]] for i in sorted(enumerate(c), key=lambda x: x[1], reverse=True) if i[1] > 0]
 
 
 def resolve_images():
