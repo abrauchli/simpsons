@@ -217,7 +217,7 @@ def replace_appearances(dic):
         ap = v['appearances']
         for i, title in enumerate(ap):
             t = title.lower()
-            if epidx.__contains__(t):
+            if t in epidx:
                 ap[i] = epidx[t]
             else:
                 # remove link
