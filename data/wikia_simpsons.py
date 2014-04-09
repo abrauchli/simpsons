@@ -113,8 +113,15 @@ def parse_eplist(page, wiki):
 
 def parse_location(page, wiki, location):
     pagename = page.title.text
+    img = location.has('image') and location.get('image').value.filter_wikilinks()
+    if img:
+        img = img[0].title.strip_code()
+        images.append(img)
+
     l = {
-        'location': pagename,
+        'page': pagename,
+        'location': location.has('name') and location.get('name').value.strip_code().strip() or pagename,
+        'image': img,
         'appearances': []
     }
     s = wiki.get_sections(matches='Appearances', include_headings=False)
