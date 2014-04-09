@@ -34,6 +34,7 @@ from bs4 import BeautifulSoup as BS
 from datetime import date
 
 characters = {}
+voiceactors = {}
 epidx = {} # dict for quicker lookups to replace episode -> episode index
 episodes = []
 locations = {}
@@ -81,6 +82,7 @@ def main():
     character_coocurrance()
     print('var episodes = '+ json.dumps(episodes, indent=ind, sort_keys=sk) +';')
     print('var characters = '+ json.dumps(characters, indent=ind, sort_keys=sk) +';')
+    print('var voiceactors = '+ json.dumps(voiceactors, indent=ind, sort_keys=sk) +';')
     print('var locations = '+ json.dumps(locations, indent=ind, sort_keys=sk) +';')
     print('var images = '+ json.dumps(resolve_images(), indent=ind, sort_keys=sk) +';')
 
@@ -186,6 +188,10 @@ def parse_character(page, wiki, character):
             if s:
                 vtmp.append(s)
         if vtmp:
+            for v in vtmp:
+                if v not in voiceactors:
+                    voiceactors[v] = []
+                voiceactors[v].append(pagename)
             voiced.append(' '.join(vtmp))
 
     img = t.has('image') and t.get('image').value.filter_wikilinks()
