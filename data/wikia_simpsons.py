@@ -287,6 +287,8 @@ def resolve_images():
             img.append(images.pop())
 
         url = 'http://simpsons.wikia.com/api.php?action=query&titles='+ urllib.parse.quote('|'.join(img)) +'&prop=imageinfo&iiprop=url&format=json'
+        if len(url) > 2000:
+            print("Warning long URL: %d" % len(url), file=sys.stderr)
         site = urllib.request.urlopen(url).read()
         j = json.loads(site.decode())
         for i in j['query']['pages'].items():
