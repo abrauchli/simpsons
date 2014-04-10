@@ -33,11 +33,9 @@ import urllib
 from bs4 import BeautifulSoup as BS
 from datetime import date
 
-characters = {}
-voiceactors = {}
-epidx = {} # dict for quicker lookups to replace episode -> episode index
+characters = []
 episodes = []
-locations = {}
+locations = []
 images = []
 
 month = {   'January':  '01',
@@ -55,8 +53,7 @@ month = {   'January':  '01',
 
 def main():
     #soup = BS(open("test.xml", "r"), "xml")
-    soup = BS(open("simpsons-preparsed.xml", "r"), "xml")
-    #soup = BS(open("simpsons_pages_current.xml", "r"), "xml")
+    soup = BS(open("simpsons_pages_current.xml", "r"), "xml")
     pages = soup.find_all('page')
     for page in pages:
         if page.ns.text == '0':
@@ -77,12 +74,8 @@ def main():
 
     ind = None #2
     sk = False #True
-    replace_appearances(characters)
-    replace_appearances(locations)
-    character_coocurrance()
     print('var episodes = '+ json.dumps(episodes, indent=ind, sort_keys=sk) +';')
     print('var characters = '+ json.dumps(characters, indent=ind, sort_keys=sk) +';')
-    print('var voiceactors = '+ json.dumps(voiceactors, indent=ind, sort_keys=sk) +';')
     print('var locations = '+ json.dumps(locations, indent=ind, sort_keys=sk) +';')
     print('var images = '+ json.dumps(resolve_images(), indent=ind, sort_keys=sk) +';')
 
@@ -102,28 +95,18 @@ def parse_eplist(page, wiki):
         if ep.name.matches('Eptablestart'): # Next season
             s += 1
             offset = -1
-        title = ep.get(2+offset).value.strip_code().strip()
         e = {
             's': s,
             'e': int(ep.get(5+offset).value.strip_code()),
-            'title': title,
-            'airing': isodate(ep.get(3+offset).value.strip_code().strip())
+            'title': ep.get(2+offset).value.strip_code(),
+            'airing': isodate(ep.get(3+offset).value.strip_code())
         }
         episodes.append(e)
-        epidx[title.lower()] = len(episodes) -1 # caching to speed up replacement lookups
 
 
 def parse_location(page, wiki, location):
-    pagename = page.title.text
-    img = location.has('image') and location.get('image').value.filter_wikilinks()
-    if img:
-        img = img[0].title.strip_code()
-        images.append(img)
-
     l = {
-        'page': pagename,
-        'location': location.has('name') and location.get('name').value.strip_code().strip() or pagename,
-        'image': img,
+        'location': page.title.text,
         'appearances': []
     }
     s = wiki.get_sections(matches='Appearances', include_headings=False)
@@ -133,15 +116,14 @@ def parse_location(page, wiki, location):
         else:
             temps = s[0].filter_templates(matches='^{{Ep')
             for t in temps:
-                l['appearances'].append(t.get(1).value.strip_code().strip())
+                l['appearances'].append(t.get(1).value.strip_code())
 
-    locations[pagename] = l
+    locations.append(l)
 
 def strip_tags(node):
     return [n for n in node.nodes if not isinstance(n, mwparserfromhell.nodes.tag.Tag)]
 
 def parse_character(page, wiki, character):
-    pagename = page.title.text
     t = character
     age = []
     if t.has('age'):
@@ -150,7 +132,9 @@ def parse_character(page, wiki, character):
             if isinstance(n, mwparserfromhell.nodes.text.Text):
                 s = n.value.strip()
             elif isinstance(n, mwparserfromhell.nodes.wikilink.Wikilink):
-                s = n.title.strip_code().strip()
+                s = n.title.strip_code()
+            elif isinstance(n, str):
+                s = n.strip() # never occurs
             elif isinstance(n, mwparserfromhell.nodes.template.Template):
                 #{{Birthdate|1976|9|18}}
                 if n.name.matches('Birthdate'):
@@ -158,11 +142,11 @@ def parse_character(page, wiki, character):
                     s = int((date.today() - d).days / 365)
                 else:
                     try:
-                        print("Error parsing age: "+ n.__unicode__() +" in "+ pagename, file=sys.stderr)
+                        print("Error parsing age: "+ n.__unicode__() +" in "+ page.title.text, file=sys.stderr)
                     except:
                         pass
             else:
-                print("Uncovered age case for "+ pagename, file=sys.stderr)
+                print("Uncovered age case for "+ page.title.text, file=sys.stderr)
             if s:
                 age.append(s)
     voiced = []
@@ -177,21 +161,19 @@ def parse_character(page, wiki, character):
                 vtmp = []
                 continue
             elif isinstance(n, mwparserfromhell.nodes.wikilink.Wikilink):
-                s = n.title.strip_code().strip()
+                s = n.title.strip_code()
             elif isinstance(n, mwparserfromhell.nodes.external_link.ExternalLink):
-                s = n.title.strip_code().strip()
+                s = n.title.strip_code()
+            elif isinstance(n, str):
+                s = n.strip() # never occurs
             else:
                 try:
-                    print("Error parsing voiced by: "+ n.__unicode__() +" in "+ pagename, file=sys.stderr)
+                    print("Error parsing voiced by: "+ n.__unicode__() +" in "+ page.title.text, file=sys.stderr)
                 except:
                     pass
             if s:
                 vtmp.append(s)
         if vtmp:
-            for v in vtmp:
-                if v not in voiceactors:
-                    voiceactors[v] = []
-                voiceactors[v].append(pagename)
             voiced.append(' '.join(vtmp))
 
     img = t.has('image') and t.get('image').value.filter_wikilinks()
@@ -200,8 +182,8 @@ def parse_character(page, wiki, character):
         images.append(img)
 
     c = {
-        'page': pagename,
-        'name': t.has('name') and t.get('name').value.strip_code().strip() or pagename,
+        'page': page.title.text,
+        'name': t.has('name') and t.get('name').value.strip_code().strip() or page.title.text,
         'image': img,
         'gender': ((t.has('gender') and t.get('gender').value.matches("{{Male}}")) and "M" or "W"),
         'isAlive': t.has('status') and t.get('status').value.matches("{{Alive}}"),
@@ -215,68 +197,13 @@ def parse_character(page, wiki, character):
     if s:
         for t in s[0].filter_templates(matches='^{{Ep'):
             try:
-                c['appearances'].append(t.get(1).value.strip_code().strip())
+                c['appearances'].append(t.get(1).value.strip_code())
             except:
-                print("Wrong Ep template usage in "+ pagename, file=sys.stderr)
+                print("Wrong Ep template usage in "+ page.title.text, file=sys.stderr)
 
     if c['appearances']:
         # Only add characters with appearances in canonical episodes
-        characters[pagename] = c
-
-
-def replace_appearances(dic):
-    delkeys = []
-    for k in dic.keys():
-        v = dic[k]
-        ap = v['appearances']
-        for i, title in enumerate(ap):
-            t = title.lower()
-            if t in epidx:
-                ap[i] = epidx[t]
-            else:
-                # remove link
-                del ap[i]
-                if title not in [
-                    'Day Of The Nerd',
-                    'Days of Future Future',
-                    'Do the Bartman', # A song, not an episode
-                    'Enter the Cheatrix',
-                    'The Aquarium',
-                    'The Longest Daycare',
-                    'The Pagans',
-                    'The Simpsons Movie']:
-                    print("Unknown episode "+ title, file=sys.stderr);
-        if not ap:
-            delkeys.append(k)
-
-    # remove items with no appearances
-    for k in delkeys:
-        del dic[k]
-
-
-def character_coocurrance():
-    ep = {} # character (indices) per episode
-    chars = [k for k in characters.keys()] # build character indices from dict keys
-    for i, c in enumerate(chars):
-        for a in characters[c]['appearances']:
-            if a in ep:
-                ep[a].append(i)
-            else:
-                ep[a] = [i]
-
-    n = len(chars)
-    cooc = [[0] * n for i in range(n)] # nxn matrix
-    for episode in ep.keys():
-        for character1 in ep[episode]:
-            for character2 in ep[episode]:
-                if not character1 == character2:
-                    cooc[character1][character2] += 1
-    sorted_cooc = [None]*n
-    for cidx, c in enumerate(cooc):
-        # sorted co-occurance as (char, # co-occurances) items
-        # only characters with > 0 co-occurances listed
-        characters[chars[cidx]]['cooc'] = [[chars[i[0]], i[1]] for i in sorted(enumerate(c), key=lambda x: x[1], reverse=True) if i[1] > 0]
-
+        characters.append(c)
 
 def resolve_images():
     res_img = {}
@@ -287,8 +214,6 @@ def resolve_images():
             img.append(images.pop())
 
         url = 'http://simpsons.wikia.com/api.php?action=query&titles='+ urllib.parse.quote('|'.join(img)) +'&prop=imageinfo&iiprop=url&format=json'
-        if len(url) > 2000:
-            print("Warning long URL: %d" % len(url), file=sys.stderr)
         site = urllib.request.urlopen(url).read()
         j = json.loads(site.decode())
         for i in j['query']['pages'].items():
