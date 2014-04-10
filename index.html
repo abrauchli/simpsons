@@ -80,10 +80,8 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
     
     characterList();
     episodeList();
-    
-    
-    $('#locationSelect').append('<option value="">' + 'Select a location' + '</option>');
-        
+    locationList();
+    voiceActorList();    
 
 	for (var i=0; i<seasons.length;i++){    
 		try{
@@ -94,14 +92,6 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
 		}
 	}
 	
-	for (var i=0; i<locations.length;i++){    
-		try{
-			$('#locationSelect').append('<option value="' + i + '">' + locations[i]['location'] + '</option>');
-		}
-		catch(err){
-			console.log(i);
-		}
-	}	
     $('#characterSelect').multiselect({
     	includeSelectAllOption: true,
     	enableFiltering: true,
@@ -146,7 +136,10 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
 					data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]++;
 				}
 			}
-		}/*
+		}
+		var info = document.getElementById('selectedCharacterInfo');
+		info.innerHTML = '<table class="table"><thead><tr><th>'+characters[selectedIndex]["name"]+'</th></thead><tbody><tr><td>'+characters[selectedIndex]["gender"]+'</td></tr><tr><td>'+characters[selectedIndex]["age"][0]+'</td></tr><tr><td>'+characters[selectedIndex]["cooc"][0]+'</td></tr></tbody></table>';
+		/*
     	for (var i=0; i<characters[selectedIndex]['appearances'].length;i++){
     		for (var j=0; j<episodes.length;j++){    		
     			if (characters[selectedIndex]['appearances'][i] == episodes[j]['title']){
@@ -204,6 +197,38 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
     	includeSelectAllOption: true,
     	enableFiltering: true,
     	maxHeight: 150
+    });
+    
+    $('#locationSelect').change(function(){
+    	var selected = document.getElementById('locationSelect');
+    	var selectedIndex = selected.options[selected.selectedIndex].value;
+    	//alert(selectedIndex);
+    	var img = document.getElementById('selectedLocationIcon');
+    	if(images[locations[selectedIndex]['image']]!=undefined){
+	    	img.src=images[locations[selectedIndex]['image']];
+    	}
+    	else{
+	    	img.src="http://wsamarketplace.com/wp-content/themes/classifiedstheme/thumbs/no-image.jpg";
+    	}
+    });
+    
+    $('#voiceActorSelect').multiselect({
+    	includeSelectAllOption: true,
+    	enableFiltering: true,
+    	maxHeight: 150
+    });
+    
+    $('#voiceActorSelect').change(function(){
+    	var selected = document.getElementById('voiceActorSelect');
+    	var selectedIndex = selected.options[selected.selectedIndex].value;
+    	//alert(selectedIndex);
+    	var characterBox = document.getElementById('characterBox');
+    	characterBox.innerHTML = "";    	
+    	for(var i=0; i<voiceactors[selectedIndex].length; i++){
+	    	var html = "<img width='50px' height='100px' src='"+ images[characters[voiceactors[selectedIndex][i]]['image']] +"' alt='"+voiceactors[selectedIndex]+"'>";
+	    	//alert(html);
+	    	characterBox.innerHTML += html;
+    	}
     });
     
     $('#male').change(function(){
@@ -318,6 +343,20 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
 	console.log(numofShow);
   }
   
+  function locationList(){
+  	cleanOptions('locationSelect');
+	for (var l in locations){    
+		$('#locationSelect').append('<option value="' + l + '">' + l +'</option>');
+	}
+  }
+  
+  function voiceActorList(){
+  	cleanOptions('voiceActorSelect');
+	for (var v in voiceactors){    
+		$('#voiceActorSelect').append('<option value="' + v + '">' + v +'</option>');
+	}
+  }
+  
   function cleanOptions(id){
 	 var select = document.getElementById(id);
      var length = select.options.length;
@@ -405,7 +444,7 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
         </div><br>
         <div class="container" style="margin-top:2px"><input id="male" type="checkbox" checked="checked" > M <input id="female" type="checkbox" checked="checked"> F 
 &nbsp;&nbsp;&nbsp; Age <b> 1 &nbsp;</b> <input id="ageSlider" type="text" class="span2" value="" data-slider-min="1" data-slider-max="100" data-slider-step="5" data-slider-value="[0,100]"/> <b> &nbsp;&nbsp;100</b></div>
-        <button type="button" class="btn btn-default" style="margin-top:2px"><img id="selectedCharacterIcon" height="160px" width="100px" src="images/default.png"></button>
+        <table><tr><td><button type="button" class="btn btn-default" style="margin-top:2px"><img id="selectedCharacterIcon" height="160px" width="100px" src="images/default.png"></button></td><td><div id="selectedCharacterInfo"></div></td></tr></table>
       </div>
     </div>
   </div>
@@ -419,11 +458,14 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
     </div>
     <div id="collapseThree" class="panel-collapse collapse">
       <div class="panel-body">
-        Season <select id="seasonSelect" multiple="multiple"></select> Location <select id="locationSelect" ></select><br><br>
-        Episode <select id="episodeSelect" multiple="multiple"></select>
+        Season <select id="seasonSelect" multiple="multiple"></select> <br><br>
+        Episode <select id="episodeSelect" multiple="multiple"></select> <br><br>
+        Location <select id="locationSelect" ></select><br>
+        <button type="button" class="btn btn-default" style="margin-top:2px"><img id="selectedLocationIcon" height="160px" src="http://img2.wikia.nocookie.net/__cb20130730092206/simpsons/images/6/60/Shavings2.jpg"></button>
       </div>
     </div>
   </div>
+
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -434,8 +476,8 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
     </div>
     <div id="collapseTwo" class="panel-collapse collapse">
       <div class="panel-body">
-        
-        <select id="voiceActorSelect" ></select>
+        <select id="voiceActorSelect" ></select><br><br>
+        <span id="characterBox"></span>
       </div>
     </div>
   </div>
@@ -447,7 +489,7 @@ colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','S
 </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <br><br>
-<div id="chart" style='overflow:auto; width:1960px; height:480px;'></div>
+<div id="chart" style='overflow:auto; width:1960px; height:480px;margin-top:40px'></div>
 	    </div><!--Simpsons-->
     <div class="tab-pane" id="Data">
         <h3>Data</h3>
