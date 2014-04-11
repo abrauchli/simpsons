@@ -260,9 +260,9 @@ function characterList() {
 			if (filtered)
 				return;
 		}
-		var img = ($.type(c['image']) === 'string' && c['image'] ? ' data-image="data/images/xs/'+ c['image'].substr(c['image'][0] === 'F' ? 5 : 6) + '"': '');
-		while (img.indexOf('_') >= 0)
-			img = img.replace('_', ' ');
+		var img = ($.type(c['image']) === 'string' && c['image']
+			? ' data-image="data/images/xs/'+ c['image'].substr(c['image'][0] === 'F' ? 5 : 6).replace(/_/g, ' ') + '"'
+			: '');
 		$('#characterSelect').append('<option value="' + c['page'] + '"'+ img +'>' + c['name'] + '</option>');
 	});
 }
