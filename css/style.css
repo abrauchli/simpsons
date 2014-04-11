@@ -13,6 +13,30 @@
     margin-top: 0px;
 	margin-left: 505px;
 }
+
+
+.charsel{
+	list-style: none;
+	padding: 0;
+}
+.charsel li{
+	display:inline-block;
+}
+.charsel-image{
+	width: 20px;
+	height: 20px;
+}
+.charsel-name{
+	font-weight: bold;
+	margin-left: 5px;
+}
+.charsel-fullname{
+	color: #777;
+	display:block !important;
+	font-size:small;
+	margin-left: 25px;
+}
+
 .characterIcon{
 	height: 10px,
 }
