@@ -296,7 +296,11 @@ def resolve_images():
                 if int(i[0]) < 0 and i[1].__contains__('missing'):
                     print("Error: missing image "+ i[1]['title'], file=sys.stderr)
                 else:
-                    res_img[i[1]['title']] = i[1]['imageinfo'][0]['url']
+                    title = i[1]['title']
+                    url = i[1]['imageinfo'][0]['url']
+                    res_img[title] = url
+                    # Retrieve images
+                    # urllib.request.urlretrieve(url, 'images/'+ title[5:])
             except:
                 if i[1] and i[1].__contains__('title'):
                     print("Error parsing image '%s'" % i[1]['title'], file=sys.stderr)
