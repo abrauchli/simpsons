@@ -332,13 +332,15 @@ function D3ok() {
   .classed( 'main', on );
 
     // activate all siblings
-    Object(node.links).forEach( function(id) {
-  d3.select("#c"+id).classed( 'sibling', on );
-  label = d3.select('#l'+id);
-  label.classed( 'on', on || currentZoom >= SHOW_THRESHOLD );
-  label.selectAll('text.nlabel')
-  .classed( 'sibling', on );
-    } );
+    if (node.links) {
+      Object(node.links).forEach(function(id) {
+        d3.select("#c"+id).classed( 'sibling', on );
+        label = d3.select('#l'+id);
+        label.classed( 'on', on || currentZoom >= SHOW_THRESHOLD );
+        label.selectAll('text.nlabel')
+          .classed( 'sibling', on );
+      });
+    }
 
     // set the value for the current active movie
     activeMovie = on ? node.index : undefined;
