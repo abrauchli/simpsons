@@ -248,15 +248,17 @@ function characterList(){
 	else{
 		for (var c in characters){
 			var filtered = 0;
-			if(characters[c]['gender']=="M")currentStats['numofMale']++;
-			if(characters[c]['gender']=="W")currentStats['numofFemale']++;
+			if (characters[c]['gender']=="M")
+				currentStats['numofMale']++;
+			else if (characters[c]['gender']=="W")
+				currentStats['numofFemale']++;
 			if((characterFilter['male']==0 && characters[c]['gender']=="M") || (characters[c]['gender']=="W" && characterFilter['female']==0)){
 				filtered = 1;
 			}
 
-			if(parseInt(characters[c]['age'][0]) < characterFilter['ageMin'] || parseInt(characters[c]['age'][0]) > characterFilter['ageMax']){
-				filtered=1;
-				//console.log("here");
+			if (parseInt(characters[c]['age'][0], 10) < characterFilter['ageMin']
+				|| parseInt(characters[c]['age'][0], 10) > characterFilter['ageMax'], 10) {
+				filtered = 1;
 			}
 
 			//console.log(characters[i]['gender']);
