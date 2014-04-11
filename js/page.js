@@ -93,7 +93,7 @@ function main() {
 			i, c;
 
 		if (images[crt['image']]) {
-			img.src = 'data/images/xs/'+ crt['image'];
+			img.src = images[crt['image']];
 		} else {
 			img.src="http://wsamarketplace.com/wp-content/themes/classifiedstheme/thumbs/no-image.jpg";
 		}
