@@ -304,11 +304,7 @@ function voiceActorList(){
 }
 
 function cleanOptions(id){
-	var select = document.getElementById(id);
-	var length = select.options.length;
-	for (i = 0; i < length; i++) {
-		select.options[i] = null;
-	}
+	$('#'+id).empty();
 }
 
 $(main);
