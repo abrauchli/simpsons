@@ -262,6 +262,8 @@ circle {
 }
 
 circle.level1 {
+    fill-opacity: 0.9;
+    stroke-opacity: 0.9;
     stroke: #f00;
 }
 
