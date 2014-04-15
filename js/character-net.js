@@ -202,7 +202,7 @@ function D3ok() {
             weight: e[1] / 459 // the maximal value
           };
       data.links.push(l);
-      /*
+
       var cooc = data.nodes[tgt].cooc,
           j;
       // remove reciprocal link
@@ -212,7 +212,6 @@ function D3ok() {
           break;
         }
       }
-      */
     });
   });
 
@@ -233,11 +232,11 @@ function D3ok() {
 
   // A couple of scales for node radius & edge width
   var node_size = d3.scale.linear()
-    .domain([1,549])	// we know score is in this domain
+    .domain([/*1*/10,549]) // clamp anything < 10
     .range([1,16])
     .clamp(true);
-  var edge_width = d3.scale.pow().exponent(8)
-    .domain( [minLinkWeight,maxLinkWeight] )
+  var edge_width = d3.scale.linear() // used to be pow().exponent(8) instead of linear
+    .domain([minLinkWeight,maxLinkWeight])
     .range([1,3])
     .clamp(true);
 
