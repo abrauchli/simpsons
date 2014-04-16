@@ -54,9 +54,10 @@ month = {   'January':  '01',
             'December': '12' }
 
 def main():
-    #soup = BS(open("test.xml", "r"), "xml")
-    soup = BS(open("simpsons-preparsed.xml", "r"), "xml")
-    #soup = BS(open("simpsons_pages_current.xml", "r"), "xml")
+    if (len(sys.argv) < 2):
+        print("Missing file parameter", file=sys.stderr)
+        return
+    soup = BS(open(sys.argv[1], "r"), "xml")
     pages = soup.find_all('page')
     for page in pages:
         if page.ns.text == '0':
