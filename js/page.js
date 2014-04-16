@@ -87,7 +87,8 @@ function main() {
 		maxHeight: 150
 	});
 	$('#characterSelect').change(function(e) {
-		var selected = e.targetNode.options[selected.selectedIndex].value,
+		//console.log(e);
+		var selected = this.options[e.target.selectedIndex].value,
 			crt = characters[selected],
 			img = document.getElementById('selectedCharacterIcon'),
 			i, c;
@@ -104,7 +105,14 @@ function main() {
 		for (c in characters) {
 			if (characters.hasOwnProperty(c)) {
 				for(i = 0; i < characters[c]["appearances"].length; ++i) {
-					data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]++;
+					//console.log(data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]);
+					try{
+						data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]++;
+					}
+					catch(err){
+						console.log(characters[c]["appearances"]);
+						console.log(episodes[characters[c]["appearances"][i]]);
+					}
 				}
 			}
 		}
