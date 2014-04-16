@@ -174,11 +174,25 @@
 			<li>We would like a newer dump of the DB with all changes since January 2014, however, the site admins on wikia aren't responsive to producing it (it's only one click)</li>
 			</ul>
 		</li>
+        <li><h5>Week 3</h5>
+            <ul>
+            <li>First take at integrating the tension graph</li>
+            <li>More UI changes: character selection now comes with icons</li>
+            </ul>
+        </li>
+        <li><h5>Week 4</h5>
+            <ul>
+            <li>Tweaking the tension graph to make it faster and more meaningful</li>
+            <li>Character selection now comes with native 20x20px icons which makes it much faster</li>
+            </ul>
+        </li>
 		</ul>
 		<h3>Interesting Development Findings</h3>
 		<ul>
 			<li>While parsing the Simpsons wikia pages, we found that "February" was misspelled as "Febuary" a few times. Our date parser also found other typos in month names. All found typos were corrected upstream.</li>
 			<li>Parsing the XML wikia data dump, we noted that images or their URLs are not stored. The wiki file name (File:Foo.png) had to be retrieved/resolved to an image URL using the site's API service.</li>
+            <li>The tension graph can be quite slow when shown in full. Also, a full graph doesn't leave any blank spots on the screen so some of the less important connections had to be hidden.</li>
+            <li>The character selection box first used the full sized images displayed at 20x20px. This proved to be _very_ slow, so we converted all images natively. The first run is a bit slower, as all images have to be cached by the browser, but subsequent runs are now much faster.</li>
 		</ul>
 	</div>
 </div>
