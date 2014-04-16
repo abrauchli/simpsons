@@ -266,17 +266,17 @@ def character_coocurrance():
                 ep[a] = [i]
 
     n = len(chars)
-    cooc = [[0] * n for i in range(n)] # nxn matrix
+    cooc = [[[] for j in range(n)] for i in range(n)] # nxn matrix
     for episode in ep.keys():
         for character1 in ep[episode]:
             for character2 in ep[episode]:
                 if not character1 == character2:
-                    cooc[character1][character2] += 1
+                    cooc[character1][character2].append(episode)
     sorted_cooc = [None]*n
     for cidx, c in enumerate(cooc):
         # sorted co-occurance as (char, # co-occurances) items
         # only characters with > 0 co-occurances listed
-        characters[chars[cidx]]['cooc'] = [[chars[i[0]], i[1]] for i in sorted(enumerate(c), key=lambda x: x[1], reverse=True) if i[1] > 0]
+        characters[chars[cidx]]['cooc'] = [[chars[i[0]], len(i[1]), i[1]] for i in sorted(enumerate(c), key=lambda x: len(x[1]), reverse=True) if i[1]]
 
 
 def resolve_images():
