@@ -50,7 +50,7 @@ var margin = { top: 150, right: 10, bottom: 50, left: 100 },
       .attr("x", 0)
       .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; })
       .style("text-anchor", "left")
-      .attr("transform", "translate("+cellSize/2 + ",-6) rotate (-90)")
+      .attr("transform", "translate("+cellSize/2 + ",-6)")
       .attr("class",  function (d,i) { return "colLabel mono c"+i;} )
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})

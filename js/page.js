@@ -28,7 +28,7 @@ data = [
 hcrow = [1]; // change to gene name or probe id
 hccol = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]; // change to gene name or probe id
 rowLabel = ['Homer Simpson']; // change to gene name or probe id
-colLabel = ['Season 1','Season 2','Season 3','Season 4','Season 5','Season 6','Season 7','Season 8','Season 9','Season 10','Season 11','Season 12','Season 13','Season 14','Season 15','Season 16','Season 17','Season 18','Season 19','Season 20','Season 21','Season 22','Season 23','Season 24','Season 25']; // change to contrast name
+colLabel = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25']; // change to contrast name
 
 var characterFilter = {
 	"filter": 1,
@@ -110,6 +110,7 @@ function main() {
 						data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]++;
 					}
 					catch(err){
+						console.log(characters[c]);
 						console.log(characters[c]["appearances"]);
 						console.log(episodes[characters[c]["appearances"][i]]);
 					}
