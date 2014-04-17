@@ -284,28 +284,26 @@ function D3ok() {
     .attr('class', function(d) {
       //console.log(selectedChar);
       if(selectedChar !== "all"){
-       if(highChars[d.page] !== undefined){
-         if(d.page === selectedChar)return 'node levels';
-       else{return 'node levelo';  }
-     }
-    }
-      else{
-          return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
-      }
-     } )
-    .attr('r', function(d) {
-        if(selectedChar !== "all"){
         if(highChars[d.page] !== undefined){
-            //console.log(highChars[d.page]);
-          return node_size(highChars[d.page]*50 < 500? highChars[d.page]*50 : 500);
+          return (d.page === selectedChar) ? 'node levels' : 'node levelo';
         }
-        else{
-        return node_size(50);
+      } else {
+        return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
+      }
+    })
+    .attr('r', function(d) {
+      if (selectedChar !== "all") {
+        if (highChars[d.page] !== undefined) {
+          //console.log(highChars[d.page]);
+          return node_size(highChars[d.page]*50 < 500? highChars[d.page]*50 : 500);
+        } else {
+          return node_size(50);
         }
 
         //return node_size(d.cooc.length);
+      } else {
+        return node_size(d.cooc.length);
       }
-      else{return node_size(d.cooc.length); }
     })
     .attr('pointer-events', 'all')
     //.on("click", function(d) { highlightGraphNode(d,true,this); } )
