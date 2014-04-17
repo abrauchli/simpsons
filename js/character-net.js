@@ -183,7 +183,8 @@ function D3ok() {
   var data = { nodes: [], links: [] },
       idx = {},
       i = 0;
-  
+
+  // Deep-clone all characters into data.nodes array
   $.each(characters, function(k, o) {
   if(k === selectedChar){
     var selectedSize = 0;
@@ -197,14 +198,14 @@ function D3ok() {
     highChars[k] = selectedSize;
   }
     var c = $.extend(true, {}, o);
-    c.index = i;
+    c.index = i; // put the array index on the clone
     data.nodes.push(c);
     idx[k] = i++;
   });
   if(selectedChar !== "all")console.log(highChars);
   $.each(data.nodes, function(i, o) {
     $.each(o.cooc, function(ci, e) {
-      if (e[1] < 10)
+      if (e[1] < 10) // ignore links between all nodes with < 10 coocurrances
         return;
 
       var tgt = idx[e[0]],
