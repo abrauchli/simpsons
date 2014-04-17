@@ -189,10 +189,10 @@ div#nocontent h1 {
 /* Movie details panel */
 
 div#movieInfo {
-    position: relative;
+    position: absolute;
     right: 4px;
     cursor: text;
-    width: 300px;
+    width: 200px;
     z-index: 1000;
     background: #E5E4D6;
     border: solid 1px #aaa;

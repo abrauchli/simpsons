@@ -145,36 +145,33 @@ function D3ok() {
   */
   function getMovieInfo( n, nodeArray ) {
     info = '<div id="cover">';
-    if( n.cover )
-      info += '<img class="cover" height="300" src="' + n.cover + '" title="' + n.label + '"/>';
+    if(images[n.image])
+      info += '<img class="cover" height="200" src="' + images[n.image] + '" title="' + n.page + '"/>';
     else
-      info += '<div class=t style="float: right">' + n.title + '</div>';
+      info += '<div class=t style="float: right">' + n.page + '</div>';
+      
     info +=
-    '<img src="close.png" class="action" style="top: 0px;" title="close panel" onClick="toggleDiv(\'movieInfo\');"/>' +
-    '<img src="target-32.png" class="action" style="top: 280px;" title="center graph on movie" onclick="selectMovie('+n.index+',true);"/>';
-
+    '<img src="images/close.png" class="action" style="top: 0px;" title="close panel" onClick="toggleDiv(\'movieInfo\');"/>' +
+    '<img src="images/target-32.png" class="action" style="top: 280px;" title="center graph on movie" onclick="selectMovie('+n.index+',true);"/>';
+    
     info += '<br/></div><div style="clear: both;">'
-    if( n.genre )
-      info += '<div class=f><span class=l>Genre</span>: <span class=g>' 
-           + n.genre + '</span></div>';
-    if( n.director )
-      info += '<div class=f><span class=l>Directed by</span>: <span class=d>' 
-           + n.director + '</span></div>';
-    if( n.cast )
-      info += '<div class=f><span class=l>Cast</span>: <span class=c>' 
-           + n.cast + '</span></div>';
-    if( n.duration )
-      info += '<div class=f><span class=l>Year</span>: ' + n.year 
-           + '<span class=l style="margin-left:1em;">Duration</span>: ' 
-           + n.duration + '</div>';
-    if( n.links ) {
-      info += '<div class=f><span class=l>Related to</span>: ';
-      n.links.forEach( function(idx) {
-	info += '[<a href="javascript:void(0);" onclick="selectMovie('  
-	     + idx + ',true);">' + nodeArray[idx].label + '</a>]'
-      });
-      info += '</div>';
-    }
+    if( n.age )
+      info += '<div class=f><span class=l>Age</span>: <span class=g>' 
+           + n.age + '</span></div>';
+    if( n.gender )
+      info += '<div class=f><span class=l>Gender</span>: <span class=d>' 
+           + n.gender + '</span></div>';
+    if( n.voicedBy )
+      info += '<div class=f><span class=l>Voice Actors</span>: <span class=c>' 
+           + n.voicedBy + '</span></div>';
+    if( n.isAlive )
+      info += '<div class=f><span class=l>Alive</span>: ' + n.isAlive 
+           + '</div>';
+    if( n.name )
+      info += '<div class=f><span class=l>Full Name</span>: <span class=c>' 
+           + n.name + '</span></div>';
+    info += '</div>';
+
     return info;
   }
 
