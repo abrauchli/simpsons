@@ -1,4 +1,6 @@
-data = [
+var selectedChar = "all";
+
+var data = [
 {row: 1, col: 1, value: 0},
 {row: 1, col: 2, value: 0},
 {row: 1, col: 3, value: 0},
@@ -87,12 +89,14 @@ function main() {
 		maxHeight: 150
 	});
 	$('#characterSelect').change(function(e) {
-		//console.log(e);
+		//console.log(this.options[e.target.selectedIndex].value);		
 		var selected = this.options[e.target.selectedIndex].value,
 			crt = characters[selected],
 			img = document.getElementById('selectedCharacterIcon'),
 			i, c;
-
+		selectedChar = selected;		
+		D3ok();			
+		
 		if (images[crt['image']]) {
 			img.src = images[crt['image']];
 		} else {
@@ -110,9 +114,9 @@ function main() {
 						data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]++;
 					}
 					catch(err){
-						console.log(characters[c]);
-						console.log(characters[c]["appearances"]);
-						console.log(episodes[characters[c]["appearances"][i]]);
+						//console.log(characters[c]);
+						//console.log(characters[c]["appearances"]);
+						//console.log(episodes[characters[c]["appearances"][i]]);
 					}
 				}
 			}

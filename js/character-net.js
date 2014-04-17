@@ -41,7 +41,6 @@ var zoomCall = undefined;
 
 // Do the stuff -- to be called after D3.js has loaded
 function D3ok() {
-
   // Some constants
   var WIDTH = 750,
       HEIGHT = 425,
@@ -73,6 +72,9 @@ function D3ok() {
     .linkStrength( function(d,idx) { return d.weight; } );
 
   // Add to the page the SVG element that will contain the movie network
+  
+  document.getElementById('movieNetwork').innerHTML = '';  //remove the previous svg element when initial
+
   var svg = d3.select("#movieNetwork").append("svg:svg")
     .attr('xmlns','http://www.w3.org/2000/svg')
     .attr("width", WIDTH)
@@ -180,16 +182,29 @@ function D3ok() {
   // *************************************************************************
 
 (function() {
+  var highChars = [];
   var data = { nodes: [], links: [] },
       idx = {},
       i = 0;
-
+  
   $.each(characters, function(k, o) {
+	if(k === selectedChar){
+		var selectedSize = 0;
+		$.each(o.cooc, function(ci, e) {
+			//if(e > 1){
+			//console.log(e[1]);
+				selectedSize += e[1];
+				highChars[e[0]] = e[1];
+			//}
+		});
+		highChars[k] = selectedSize;
+	}		
     var c = $.extend(true, {}, o);
     c.index = i;
     data.nodes.push(c);
     idx[k] = i++;
   });
+  if(selectedChar !== "all")console.log(highChars);
   $.each(data.nodes, function(i, o) {
     $.each(o.cooc, function(ci, e) {
       if (e[1] < 10)
@@ -214,6 +229,7 @@ function D3ok() {
       }
     });
   });
+  
 
   // Declare the variables pointing to the node & link arrays
   var nodeArray = data.nodes;
@@ -268,9 +284,31 @@ function D3ok() {
     .enter().append("svg:circle")
     .attr('id', function(d) { return "c" + d.index; } )
     .attr('class', function(d) {
-      return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
+      //console.log(selectedChar);
+      if(selectedChar !== "all"){    		
+	     if(highChars[d.page] !== undefined){
+	       if(d.page === selectedChar)return 'node levels';  
+		   else{return 'node levelo';  }   
+		 }	    
+	  }
+      else{
+      	  return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
+      }
      } )
-    .attr('r', function(d) { return node_size(d.cooc.length); } )
+    .attr('r', function(d) { 
+    	if(selectedChar !== "all"){    		
+	    	if(highChars[d.page] !== undefined){
+	      	  //console.log(highChars[d.page]);
+		      return node_size(highChars[d.page]*50 < 500? highChars[d.page]*50 : 500);      
+		    }
+		    else{
+			  return node_size(50);
+		    }
+		    
+		    //return node_size(d.cooc.length);
+	    }
+    	else{return node_size(d.cooc.length); }
+    })
     .attr('pointer-events', 'all')
     //.on("click", function(d) { highlightGraphNode(d,true,this); } )    
     .on("click", function(d) { showMoviePanel(d); } )

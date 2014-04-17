@@ -261,15 +261,28 @@ circle {
     fill: #EBC763;
 }
 
-circle.level1 {
+circle.levels {				/* selected character*/
     fill-opacity: 0.9;
     stroke-opacity: 0.9;
+    fill: #2E2EFE;
+    stroke: #2E2EFE;
+}
+circle.levelo {				/* cooc of selected character*/
+    fill-opacity: 0.9;
+    stroke-opacity: 0.9;
+    fill: #FFFF00;
+    stroke: #FFFF00;
+}
+
+circle.level1 {
+    fill-opacity: 0.8;
+    stroke-opacity: 0.8;
     stroke: #f00;
 }
 
 circle.level2 {
-    fill-opacity: 0.8;
-    stroke-opacity: 0.8;
+    fill-opacity: 0.7;
+    stroke-opacity: 0.7;
     stroke: #777;
 }
 
