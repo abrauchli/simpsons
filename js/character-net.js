@@ -17,7 +17,7 @@
    -------------------------------------------------------------------------- */
 
 // -------------------------------------------------------------------
-// A number of forward declarations. These variables need to be defined since 
+// A number of forward declarations. These variables need to be defined since
 // they are attached to static code in HTML. But we cannot define them yet
 // since they need D3.js stuff. So we put placeholders.
 
@@ -72,7 +72,7 @@ function D3ok() {
     .linkStrength( function(d,idx) { return d.weight; } );
 
   // Add to the page the SVG element that will contain the movie network
-  
+
   document.getElementById('movieNetwork').innerHTML = '';  //remove the previous svg element when initial
 
   var svg = d3.select("#movieNetwork").append("svg:svg")
@@ -91,22 +91,22 @@ function D3ok() {
   // Get the current size & offset of the browser's viewport window
   function getViewportSize( w ) {
     var w = w || window;
-    if( w.innerWidth != null ) 
-      return { w: w.innerWidth, 
-	       h: w.innerHeight,
-	       x : w.pageXOffset,
-	       y : w.pageYOffset };
+    if( w.innerWidth != null )
+      return { w: w.innerWidth,
+         h: w.innerHeight,
+         x : w.pageXOffset,
+         y : w.pageYOffset };
     var d = w.document;
     if( document.compatMode == "CSS1Compat" )
       return { w: d.documentElement.clientWidth,
-	       h: d.documentElement.clientHeight,
-	       x: d.documentElement.scrollLeft,
-	       y: d.documentElement.scrollTop };
+         h: d.documentElement.clientHeight,
+         x: d.documentElement.scrollLeft,
+         y: d.documentElement.scrollTop };
     else
-      return { w: d.body.clientWidth, 
-	       h: d.body.clientHeight,
-	       x: d.body.scrollLeft,
-	       y: d.body.scrollTop};
+      return { w: d.body.clientWidth,
+         h: d.body.clientHeight,
+         x: d.body.scrollLeft,
+         y: d.body.scrollTop};
   }
 
 
@@ -130,13 +130,13 @@ function D3ok() {
   }
 
 
-  /* Clear all help boxes and select a movie in the network and in the 
+  /* Clear all help boxes and select a movie in the network and in the
      movie details panel
   */
   clearAndSelect = function (id) {
-    toggleDiv('faq','off'); 
-    toggleDiv('help','off'); 
-    selectMovie(id,true);	// we use here the selectMovie() closure
+    toggleDiv('faq','off');
+    toggleDiv('help','off');
+    selectMovie(id,true);  // we use here the selectMovie() closure
   }
 
 
@@ -149,26 +149,26 @@ function D3ok() {
       info += '<img class="cover" height="200" src="' + images[n.image] + '" title="' + n.page + '"/>';
     else
       info += '<div class=t style="float: right">' + n.page + '</div>';
-      
+
     info +=
     '<img src="images/close.png" class="action" style="top: 0px;" title="close panel" onClick="toggleDiv(\'movieInfo\');"/>' +
     '<img src="images/target-32.png" class="action" style="top: 280px;" title="center graph on movie" onclick="selectMovie('+n.index+',true);"/>';
-    
+
     info += '<br/></div><div style="clear: both;">'
     if( n.age )
-      info += '<div class=f><span class=l>Age</span>: <span class=g>' 
+      info += '<div class=f><span class=l>Age</span>: <span class=g>'
            + n.age + '</span></div>';
     if( n.gender )
-      info += '<div class=f><span class=l>Gender</span>: <span class=d>' 
+      info += '<div class=f><span class=l>Gender</span>: <span class=d>'
            + n.gender + '</span></div>';
     if( n.voicedBy )
-      info += '<div class=f><span class=l>Voice Actors</span>: <span class=c>' 
+      info += '<div class=f><span class=l>Voice Actors</span>: <span class=c>'
            + n.voicedBy + '</span></div>';
     if( n.isAlive )
-      info += '<div class=f><span class=l>Alive</span>: ' + n.isAlive 
+      info += '<div class=f><span class=l>Alive</span>: ' + n.isAlive
            + '</div>';
     if( n.name )
-      info += '<div class=f><span class=l>Full Name</span>: <span class=c>' 
+      info += '<div class=f><span class=l>Full Name</span>: <span class=c>'
            + n.name + '</span></div>';
     info += '</div>';
 
@@ -185,17 +185,17 @@ function D3ok() {
       i = 0;
   
   $.each(characters, function(k, o) {
-	if(k === selectedChar){
-		var selectedSize = 0;
-		$.each(o.cooc, function(ci, e) {
-			//if(e > 1){
-			//console.log(e[1]);
-				selectedSize += e[1];
-				highChars[e[0]] = e[1];
-			//}
-		});
-		highChars[k] = selectedSize;
-	}		
+  if(k === selectedChar){
+    var selectedSize = 0;
+    $.each(o.cooc, function(ci, e) {
+      //if(e > 1){
+      //console.log(e[1]);
+        selectedSize += e[1];
+        highChars[e[0]] = e[1];
+      //}
+    });
+    highChars[k] = selectedSize;
+  }
     var c = $.extend(true, {}, o);
     c.index = i;
     data.nodes.push(c);
@@ -226,7 +226,7 @@ function D3ok() {
       }
     });
   });
-  
+
 
   // Declare the variables pointing to the node & link arrays
   var nodeArray = data.nodes;
@@ -282,32 +282,32 @@ function D3ok() {
     .attr('id', function(d) { return "c" + d.index; } )
     .attr('class', function(d) {
       //console.log(selectedChar);
-      if(selectedChar !== "all"){    		
-	     if(highChars[d.page] !== undefined){
-	       if(d.page === selectedChar)return 'node levels';  
-		   else{return 'node levelo';  }   
-		 }	    
-	  }
+      if(selectedChar !== "all"){
+       if(highChars[d.page] !== undefined){
+         if(d.page === selectedChar)return 'node levels';
+       else{return 'node levelo';  }
+     }
+    }
       else{
-      	  return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
+          return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
       }
      } )
-    .attr('r', function(d) { 
-    	if(selectedChar !== "all"){    		
-	    	if(highChars[d.page] !== undefined){
-	      	  //console.log(highChars[d.page]);
-		      return node_size(highChars[d.page]*50 < 500? highChars[d.page]*50 : 500);      
-		    }
-		    else{
-			  return node_size(50);
-		    }
-		    
-		    //return node_size(d.cooc.length);
-	    }
-    	else{return node_size(d.cooc.length); }
+    .attr('r', function(d) {
+        if(selectedChar !== "all"){
+        if(highChars[d.page] !== undefined){
+            //console.log(highChars[d.page]);
+          return node_size(highChars[d.page]*50 < 500? highChars[d.page]*50 : 500);
+        }
+        else{
+        return node_size(50);
+        }
+
+        //return node_size(d.cooc.length);
+      }
+      else{return node_size(d.cooc.length); }
     })
     .attr('pointer-events', 'all')
-    //.on("click", function(d) { highlightGraphNode(d,true,this); } )    
+    //.on("click", function(d) { highlightGraphNode(d,true,this); } )
     .on("click", function(d) { showMoviePanel(d); } )
     .on("mouseover", function(d) { highlightGraphNode(d,true,this);  } )
     .on("mouseout",  function(d) { highlightGraphNode(d,false,this); } );
@@ -339,8 +339,8 @@ function D3ok() {
 
   /* --------------------------------------------------------------------- */
   /* Select/unselect a node in the network graph.
-     Parameters are: 
-     - node: data for the node to be changed,  
+     Parameters are:
+     - node: data for the node to be changed,
      - on: true/false to show/hide the node
   */
   function highlightGraphNode( node, on )
@@ -350,7 +350,7 @@ function D3ok() {
     // If we are to activate a movie, and there's already one active,
     // first switch that one off
     if( on && activeMovie !== undefined ) {
-  highlightGraphNode( nodeArray[activeMovie], false );
+      highlightGraphNode( nodeArray[activeMovie], false );
     }
 
     // locate the SVG nodes: circle & label group
@@ -358,12 +358,9 @@ function D3ok() {
     label  = d3.select( '#l' + node.index );
 
     // activate/deactivate the node itself
-    circle
-  .classed( 'main', on );
-    label
-  .classed( 'on', on || currentZoom >= SHOW_THRESHOLD );
-    label.selectAll('text')
-  .classed( 'main', on );
+    circle.classed( 'main', on );
+    label.classed( 'on', on || currentZoom >= SHOW_THRESHOLD );
+    label.selectAll('text').classed( 'main', on );
 
     // activate all siblings
     if (node.links) {
@@ -382,7 +379,7 @@ function D3ok() {
 
 
   /* --------------------------------------------------------------------- */
-  /* Show the details panel for a movie AND highlight its node in 
+  /* Show the details panel for a movie AND highlight its node in
      the graph. Also called from outside the d3.json context.
      Parameters:
      - new_idx: index of the movie to show
@@ -394,12 +391,12 @@ function D3ok() {
     // do we want to center the graph on the node?
     doMoveTo = doMoveTo || false;
     if( doMoveTo ) {
-  s = getViewportSize();
-  width  = s.w<WIDTH ? s.w : WIDTH;
-  height = s.h<HEIGHT ? s.h : HEIGHT;
-  offset = { x : s.x + width/2  - nodeArray[new_idx].x*currentZoom,
-     y : s.y + height/2 - nodeArray[new_idx].y*currentZoom };
-  repositionGraph( offset, undefined, 'move' );
+      s = getViewportSize();
+      width  = s.w<WIDTH ? s.w : WIDTH;
+      height = s.h<HEIGHT ? s.h : HEIGHT;
+      offset = { x : s.x + width/2  - nodeArray[new_idx].x*currentZoom,
+         y : s.y + height/2 - nodeArray[new_idx].y*currentZoom };
+      repositionGraph( offset, undefined, 'move' );
     }
     // Now highlight the graph node and show its movie panel
     highlightGraphNode( nodeArray[new_idx], true );
@@ -413,11 +410,11 @@ function D3ok() {
   function showMoviePanel( node ) {
     // Fill it and display the panel
     movieInfoDiv
-  .html( getMovieInfo(node,nodeArray) )
-  .attr("class","panel_on");
+      .html( getMovieInfo(node,nodeArray) )
+      .attr("class","panel_on");
   }
 
-    
+
   /* --------------------------------------------------------------------- */
   /* Move all graph elements to its new positions. Triggered:
      - on node repositioning (as result of a force-directed iteration)
@@ -433,32 +430,31 @@ function D3ok() {
 
     // drag: translate to new offset
     if( off !== undefined &&
-  (off.x != currentOffset.x || off.y != currentOffset.y ) ) {
-  g = d3.select('g.grpParent')
-  if( doTr )
-  g = g.transition().duration(500);
-  g.attr("transform", function(d) { return "translate("+
-          off.x+","+off.y+")" } );
-  currentOffset.x = off.x;
-  currentOffset.y = off.y;
+        (off.x != currentOffset.x || off.y != currentOffset.y ) ) {
+      g = d3.select('g.grpParent')
+      if( doTr )
+        g = g.transition().duration(500);
+      g.attr("transform", function(d) { return "translate("+
+            off.x+","+off.y+")" } );
+      currentOffset.x = off.x;
+      currentOffset.y = off.y;
     }
 
     // zoom: get new value of zoom
     if( z === undefined ) {
-  if( mode != 'tick' )
-  return;	// no zoom, no tick, we don't need to go further
-  z = currentZoom;
-    }
-    else
-  currentZoom = z;
+      if( mode != 'tick' )
+        return;  // no zoom, no tick, we don't need to go further
+      z = currentZoom;
+    } else
+      currentZoom = z;
 
     // move edges
     e = doTr ? graphLinks.transition().duration(500) : graphLinks;
     e
-  .attr("x1", function(d) { return z*(d.source.x); })
-      .attr("y1", function(d) { return z*(d.source.y); })
-      .attr("x2", function(d) { return z*(d.target.x); })
-      .attr("y2", function(d) { return z*(d.target.y); });
+      .attr("x1", function(d) { return z*(d.source.x); })
+        .attr("y1", function(d) { return z*(d.source.y); })
+        .attr("x2", function(d) { return z*(d.target.x); })
+        .attr("y2", function(d) { return z*(d.target.y); });
 
     // move nodes
     n = doTr ? graphNodes.transition().duration(500) : graphNodes;
@@ -471,14 +467,14 @@ function D3ok() {
   .attr("transform", function(d) { return "translate("
          +z*d.x+","+z*d.y+")" } );
   }
-         
+
 
   /* --------------------------------------------------------------------- */
   /* Perform drag
    */
   function dragmove(d) {
     offset = { x : currentOffset.x + d3.event.dx,
-   y : currentOffset.y + d3.event.dy };
+               y : currentOffset.y + d3.event.dy };
     repositionGraph( offset, undefined, 'drag' );
   }
 
@@ -489,16 +485,16 @@ function D3ok() {
    * together as zoom changes)
    */
   function doZoom( increment ) {
-    newZoom = increment === undefined ? d3.event.scale 
+    newZoom = increment === undefined ? d3.event.scale
         : zoomScale(currentZoom+increment);
     if( currentZoom == newZoom )
-  return;	// no zoom change
+      return;  // no zoom change
 
     // See if we cross the 'show' threshold in either direction
     if( currentZoom<SHOW_THRESHOLD && newZoom>=SHOW_THRESHOLD )
-  svg.selectAll("g.label").classed('on',true);
+      svg.selectAll("g.label").classed('on',true);
     else if( currentZoom>=SHOW_THRESHOLD && newZoom<SHOW_THRESHOLD )
-  svg.selectAll("g.label").classed('on',false);
+      svg.selectAll("g.label").classed('on',false);
 
     // See what is the current graph window size
     s = getViewportSize();
@@ -508,13 +504,13 @@ function D3ok() {
     // Compute the new offset, so that the graph center does not move
     zoomRatio = newZoom/currentZoom;
     newOffset = { x : currentOffset.x*zoomRatio + width/2*(1-zoomRatio),
-      y : currentOffset.y*zoomRatio + height/2*(1-zoomRatio) };
+                  y : currentOffset.y*zoomRatio + height/2*(1-zoomRatio) };
 
     // Reposition the graph
     repositionGraph( newOffset, newZoom, "zoom" );
   }
 
-  zoomCall = doZoom;	// unused, so far
+  zoomCall = doZoom;  // unused, so far
 
   /* --------------------------------------------------------------------- */
 
