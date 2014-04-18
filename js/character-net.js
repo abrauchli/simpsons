@@ -145,30 +145,29 @@ function D3ok() {
   */
   function getMovieInfo( n, nodeArray ) {
     info = '<div id="cover">';
-    if(images[n.image])
-      info += '<img class="cover" height="200" src="' + images[n.image] + '" title="' + n.page + '"/>';
-    else
-      info += '<div class=t style="float: right">' + n.page + '</div>';
+    info += '<div class="cover-name">' + n.page + '</div>';
+    if (images[n.image])
+      info += '<img class="cover-image" height="200" src="' + images[n.image] + '" title="' + n.page + '"/>';
+    info += '<div class="cover-link">Full details on the <a href="http://simpsons.wikia.com/wiki/'+ n.page +'" target="_new">Simpsons Wiki</a></div>';
 
     info +=
-    '<img src="images/close.png" class="action" style="top: 0px;" title="close panel" onClick="toggleDiv(\'movieInfo\');"/>' +
-    '<img src="images/target-32.png" class="action" style="top: 280px;" title="center graph on movie" onclick="selectMovie('+n.index+',true);"/>';
+    '<img src="images/close.png" class="cover-close action" title="close panel" onClick="toggleDiv(\'movieInfo\');"/>' +
+    '<img src="images/target-32.png" class="action" style="top: 280px;" title="Center graph on character" onclick="selectMovie('+n.index+',true);"/>';
 
     info += '<br/></div><div style="clear: both;">'
     if( n.age )
-      info += '<div class=f><span class=l>Age</span>: <span class=g>'
+      info += '<div class="f"><span class="l">Age</span>: <span class="g">'
            + n.age + '</span></div>';
     if( n.gender )
-      info += '<div class=f><span class=l>Gender</span>: <span class=d>'
+      info += '<div class="f"><span class="l">Gender</span>: <span class="d">'
            + n.gender + '</span></div>';
     if( n.voicedBy )
-      info += '<div class=f><span class=l>Voice Actors</span>: <span class=c>'
+      info += '<div class="f"><span class="l">Voice Actors</span>: <span class="c">'
            + n.voicedBy + '</span></div>';
-    if( n.isAlive )
-      info += '<div class=f><span class=l>Alive</span>: ' + n.isAlive
+    info += '<div class="f"><span class="l">Alive</span>: ' + (n.isAlive ? 'Yes' : 'No')
            + '</div>';
     if( n.name )
-      info += '<div class=f><span class=l>Full Name</span>: <span class=c>'
+      info += '<div class="f"><span class="l">Full Name</span>: <span class="c">'
            + n.name + '</span></div>';
     info += '</div>';
 
@@ -200,7 +199,7 @@ function D3ok() {
     var c = $.extend(true, {}, o);
     c.index = i; // put the array index on the clone
     if (c.image)
-        c.image = c.image.substr(c.image[0] === 'F' ? 5 : 6);
+        c.img = c.image.substr(c.image[0] === 'F' ? 5 : 6);
     data.nodes.push(c);
     idx[k] = i++;
   });
@@ -269,10 +268,10 @@ function D3ok() {
 
   var pat = svg.append('defs')
     .selectAll('defs')
-    .data(nodeArray.filter(function(d) { return !!d.image && d.cooc.length > 40; }))
+    .data(nodeArray.filter(function(d) { return !!d.img && d.cooc.length > 40; }))
     .enter()
     .append('pattern')
-      .attr('id', function(d) { return d.image.replace(/ /g, '_'); })
+      .attr('id', function(d) { return d.img.replace(/ /g, '_'); })
       //.attr('x', 0).attr('y', 0)
       //.attr('patternUnits', 'userSpaceOnUse')
       .attr('height', 20).attr('width', 20);
@@ -283,7 +282,7 @@ function D3ok() {
   pat.append('image')
       //.attr('x', 0).attr('y', 0)
       .attr('height', 20).attr('width', 20)
-      .attr('xlink:href', function(d) { return 'data/images/xs/'+ d.image; });
+      .attr('xlink:href', function(d) { return 'data/images/xs/'+ d.img; });
 
   var networkGraph = svg.append('svg:g').attr('class','grpParent');
 
@@ -326,7 +325,7 @@ function D3ok() {
       }
     })
     .attr('pointer-events', 'all')
-    .attr('fill', function(d) { return d.image && d.cooc.length > 40 ? 'url(#'+ d.image.replace(/ /g, '_') +')' : ''; })
+    .attr('fill', function(d) { return d.img && d.cooc.length > 40 ? 'url(#'+ d.img.replace(/ /g, '_') +')' : ''; })
     //.on("click", function(d) { highlightGraphNode(d,true,this); } )
     .on("click", function(d) { showMoviePanel(d); } )
     .on("mouseover", function(d) { highlightGraphNode(d,true,this);  } )

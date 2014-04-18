@@ -205,19 +205,30 @@ div#movieInfo {
 
 div#movieInfo div#cover {
     text-align: left; 
-    height: 300px;
+    height: 250px;
 }
 
-div#movieInfo div.t {
+div#movieInfo .cover-close {
+    top: 0px;
+    right: 3px;
+}
+
+div#movieInfo div.cover-name {
     font-size: 14px;
     font-weight: bold;
 }
 
-div#movieInfo img.cover {
+div#movieInfo img.cover-image {
     margin-bottom: 6px;
     position: absolute;
     right: 3px;
+    top: 50px;
 }
+
+/*
+div#movieInfo div.cover-link {
+}
+*/
 
 div#movieInfo img.action {
     cursor: pointer;
