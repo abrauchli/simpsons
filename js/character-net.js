@@ -199,6 +199,8 @@ function D3ok() {
   }
     var c = $.extend(true, {}, o);
     c.index = i; // put the array index on the clone
+    if (c.image)
+        c.image = c.image.substr(c.image[0] === 'F' ? 5 : 6);
     data.nodes.push(c);
     idx[k] = i++;
   });
@@ -265,6 +267,24 @@ function D3ok() {
 
   // ------- Create the elements of the layout (links and nodes) ------
 
+  var pat = svg.append('defs')
+    .selectAll('defs')
+    .data(nodeArray.filter(function(d) { return !!d.image && d.cooc.length > 40; }))
+    .enter()
+    .append('pattern')
+      .attr('id', function(d) { return d.image.replace(/ /g, '_'); })
+      //.attr('x', 0).attr('y', 0)
+      //.attr('patternUnits', 'userSpaceOnUse')
+      .attr('height', 20).attr('width', 20);
+
+  pat.append('rect')
+      .attr('height', 50).attr('width', 50)
+      .attr('fill', '#B2D9D8');
+  pat.append('image')
+      //.attr('x', 0).attr('y', 0)
+      .attr('height', 20).attr('width', 20)
+      .attr('xlink:href', function(d) { return 'data/images/xs/'+ d.image; });
+
   var networkGraph = svg.append('svg:g').attr('class','grpParent');
 
   // links: simple lines
@@ -306,6 +326,7 @@ function D3ok() {
       }
     })
     .attr('pointer-events', 'all')
+    .attr('fill', function(d) { return d.image && d.cooc.length > 40 ? 'url(#'+ d.image.replace(/ /g, '_') +')' : ''; })
     //.on("click", function(d) { highlightGraphNode(d,true,this); } )
     .on("click", function(d) { showMoviePanel(d); } )
     .on("mouseover", function(d) { highlightGraphNode(d,true,this);  } )

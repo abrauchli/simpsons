@@ -256,10 +256,12 @@ line.link {
     stroke: #B2D9D8;
 }
 
+/*
 circle {
     cursor: crosshair;
     fill: #EBC763;
 }
+*/
 
 circle.levels {				/* selected character*/
     fill-opacity: 0.9;
