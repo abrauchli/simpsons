@@ -197,8 +197,9 @@
 		<h3>Interesting Development Findings</h3>
 		<ul>
 			<li>While parsing the Simpsons wikia pages, we found that "February" was misspelled as "Febuary" a few times. Our date parser also found other typos in month names. All found typos were corrected upstream.</li>
+			<li>Parsing the XML wikia data dump file of ca. 100Mb took about 6 minutes on a Core2Duo 1.4Ghz, 4Gb ram and consumed a good 2Gb of ram. We thus wrote an XSLT to pre-parse the XML file to get rid of unneeded nodes. This got the file size down to ca. 30Mb, the parsing time is now 90s and only consumes 400Mb of ram.</li>
 			<li>Parsing the XML wikia data dump, we noted that images or their URLs are not stored. The wiki file name (File:Foo.png) had to be retrieved/resolved to an image URL using the site's API service.</li>
-            <li>The tension graph can be quite slow when shown in full. Also, a full graph doesn't leave any blank spots on the screen so some of the less important connections had to be hidden.</li>
+			<li>The tension graph can be quite slow when shown in full. Also, a full graph doesn't leave any blank spots on the screen so some of the less important connections had to be hidden.</li>
             <li>The character selection box first used the full sized images displayed at 20x20px. This proved to be _very_ slow, so we converted all images natively. The first run is a bit slower, as all images have to be cached by the browser, but subsequent runs are now much faster.</li>
 		</ul>
 	</div>
