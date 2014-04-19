@@ -94,8 +94,9 @@ function main() {
 			crt = characters[selected],
 			img = document.getElementById('selectedCharacterIcon'),
 			i, c;
-		selectedChar = selected;		
-		D3ok();			
+		selectedChar = selected;	
+		document.getElementById('chart').innerHTML = '';	
+		D3ok();	
 		
 		if (images[crt['image']]) {
 			img.src = images[crt['image']];
@@ -104,8 +105,8 @@ function main() {
 		}
 		for (i = 0; i < data.length; ++i) {
 			data[i]["value"] = 0;
-		}
-		rowLabel[0] = crt['name'];
+		}		
+		rowLabel[0] = crt['name'];		
 		for (c in characters) {
 			if (characters.hasOwnProperty(c)) {
 				for(i = 0; i < characters[c]["appearances"].length; ++i) {
