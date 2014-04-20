@@ -203,7 +203,6 @@ function D3ok() {
     data.nodes.push(c);
     idx[k] = i++;
   });
-  if(selectedChar !== "all")console.log(highChars);
   $.each(data.nodes, function(i, o) {
     $.each(o.cooc, function(ci, e) {
       if (e[1] < 10) // ignore links between all nodes with < 10 coocurrances
