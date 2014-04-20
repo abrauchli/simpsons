@@ -200,11 +200,19 @@ def parse_character(page, wiki, character):
         img = img[0].title.strip_code()
         images.append(img)
 
+    gender = '?'
+    if t.has('gender'):
+        gen = t.get('gender').value
+        if gen.matches("{{Male}}") or gen.matches("{{male}}") or gen.matches("male"):
+            gender = 'M'
+        elif gen.matches("{{Female}}") or gen.matches("{{female}}") or gen.matches("female"):
+            gender = 'F'
+
     c = {
         'page': pagename,
         'name': t.has('name') and t.get('name').value.strip_code().strip() or pagename,
         'image': img,
-        'gender': ((t.has('gender') and t.get('gender').value.matches("{{Male}}")) and "M" or "W"),
+        'gender': gender,
         'isAlive': t.has('status') and t.get('status').value.matches("{{Alive}}"),
         #'aliases': t.get('alias').value.split('<br />'),
         'age': age,
