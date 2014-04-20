@@ -178,24 +178,34 @@ function D3ok() {
   // *************************************************************************
 
 (function() {
-  var highChars = [];
+  var highChars = []; // highlighted characters
   var data = { nodes: [], links: [] },
       idx = {},
       i = 0;
 
   // Deep-clone all characters into data.nodes array
   $.each(characters, function(k, o) {
-  if(k === selectedChar){
-    var selectedSize = 0;
-    $.each(o.cooc, function(ci, e) {
-      //if(e > 1){
-      //console.log(e[1]);
+    if (k === selectedChar) {
+      var selectedSize = 0;
+      $.each(o.cooc, function(ci, e) {
         selectedSize += e[1];
         highChars[e[0]] = e[1];
-      //}
-    });
-    highChars[k] = selectedSize;
-  }
+      });
+      highChars[k] = selectedSize;
+    } else {
+      var isSel = false;
+      if (selectedChar) {
+        $.each(o.cooc, function(c, vo) {
+          if (vo[0] === selectedChar) {
+            isSel = true;
+            return false;
+          }
+        });
+      }
+      if (!isSel && (o.cooc.length == 0 || o.cooc[0][1] < 10))
+        return; // skip this node
+    }
+
     var c = $.extend(true, {}, o);
     c.index = i; // put the array index on the clone
     if (c.image)
