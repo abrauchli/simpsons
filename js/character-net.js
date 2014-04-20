@@ -58,10 +58,10 @@ function D3ok() {
   var yScale = d3.scale.linear()
     .domain([0, HEIGHT])
     .range([0, HEIGHT]);
-  var zoomScale = d3.scale.linear()
-    .domain([1,6])
-    .range([1,6])
-    .clamp(true);
+  var zoomScale = d3.scale.linear();
+    //.domain([1,6])
+    //.range([1,6])
+    //.clamp(true);
 
 /* .......................................................................... */
 
@@ -260,7 +260,7 @@ function D3ok() {
   svg.call( d3.behavior.zoom()
       .x(xScale)
       .y(yScale)
-      .scaleExtent([1, 6])
+      //.scaleExtent([1, 6])
       .on("zoom", doZoom) );
 
   // ------- Create the elements of the layout (links and nodes) ------
