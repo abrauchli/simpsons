@@ -142,6 +142,11 @@ def strip_tags(node):
     return [n for n in node.nodes if not isinstance(n, mwparserfromhell.nodes.tag.Tag)]
 
 def parse_character(page, wiki, character):
+    # ignore Category:Objects
+    links = wiki.filter_wikilinks(recursive=False, matches="Category:")
+    for l in links:
+        if l.title.strip_code() == 'Category:Objects':
+            return;
     pagename = page.title.text
     t = character
     age = []
