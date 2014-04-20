@@ -207,7 +207,7 @@ function D3ok() {
   $.each(data.nodes, function(i, o) {
     $.each(o.cooc, function(ci, e) {
       if (e[1] < 10) // ignore links between all nodes with < 10 coocurrances
-        return;
+        return false; // abort since cooc is sorted
 
       var tgt = idx[e[0]],
           l = {
