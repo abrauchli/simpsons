@@ -149,18 +149,26 @@
 		</div><!--Simpsons-->
 	<div class="tab-pane" id="Data">
 		<h3>Data</h3>
+		<select id="seldata">
+			<option value="char">Characters</option>
+			<option value="loc">Locations</option>
+			<option value="seasons">Seasons</option>
+		</select>
+        <div id="tbldata"></div>
+        <button id="tbldataprev">Prev</button>
+        <button id="tbldatanext">Next</button>
 
 	</div>
 	<div class="tab-pane" id="About">
 		<h3>About</h3>
-        <p>This page has been created by Tianli Mo and Andreas Brauchli.</p>
-        <p>The page visualizes The Simpsons show and allows you to explore it...</p>
+		<p>This page has been created by Tianli Mo and Andreas Brauchli.</p>
+		<p>The page visualizes The Simpsons show and allows you to explore it...</p>
 
-        <h3>Sources</h3>
-        <p>
-        All data is extracted from the <a href="http://simpsons.wikia.com/wiki/Special:Statistics">Simpsons Wiki</a>. The data parser is available on our <a href="https://github.com/abrauchli/simpsons/blob/master/data/wikia_simpsons.py">GitHub repository</a>.<br>
-        All pictures are copyrighted by their respective owners.
-        </p>
+		<h3>Sources</h3>
+		<p>
+		All data is extracted from the <a href="http://simpsons.wikia.com/wiki/Special:Statistics">Simpsons Wiki</a>. The data parser is available on our <a href="https://github.com/abrauchli/simpsons/blob/master/data/wikia_simpsons.py">GitHub repository</a>.<br>
+		All pictures are copyrighted by their respective owners.
+		</p>
 	</div>
 	<div class="tab-pane" id="Weekly">
 		<h3>Weekly Report</h3>
@@ -181,18 +189,18 @@
 			<li>We would like a newer dump of the DB with all changes since January 2014, however, the site admins on wikia aren't responsive to producing it (it's only one click)</li>
 			</ul>
 		</li>
-        <li><h5>Week 3</h5>
-            <ul>
-            <li>First take at integrating the tension graph</li>
-            <li>More UI changes: character selection now comes with icons</li>
-            </ul>
-        </li>
-        <li><h5>Week 4</h5>
-            <ul>
-            <li>Tweaking the tension graph to make it faster and more meaningful</li>
-            <li>Character selection now comes with native 20x20px icons which makes it much faster</li>
-            </ul>
-        </li>
+		<li><h5>Week 3</h5>
+			<ul>
+			<li>First take at integrating the tension graph</li>
+			<li>More UI changes: character selection now comes with icons</li>
+			</ul>
+		</li>
+		<li><h5>Week 4</h5>
+			<ul>
+			<li>Tweaking the tension graph to make it faster and more meaningful</li>
+			<li>Character selection now comes with native 20x20px icons which makes it much faster</li>
+			</ul>
+		</li>
 		</ul>
 		<h3>Interesting Development Findings</h3>
 		<ul>
@@ -200,7 +208,7 @@
 			<li>Parsing the XML wikia data dump file of ca. 100Mb took about 6 minutes on a Core2Duo 1.4Ghz, 4Gb ram and consumed a good 2Gb of ram. We thus wrote an XSLT to pre-parse the XML file to get rid of unneeded nodes. This got the file size down to ca. 30Mb, the parsing time is now 90s and only consumes 400Mb of ram.</li>
 			<li>Parsing the XML wikia data dump, we noted that images or their URLs are not stored. The wiki file name (File:Foo.png) had to be retrieved/resolved to an image URL using the site's API service.</li>
 			<li>The tension graph can be quite slow when shown in full. Also, a full graph doesn't leave any blank spots on the screen so some of the less important connections had to be hidden.</li>
-            <li>The character selection box first used the full sized images displayed at 20x20px. This proved to be _very_ slow, so we converted all images natively. The first run is a bit slower, as all images have to be cached by the browser, but subsequent runs are now much faster.</li>
+			<li>The character selection box first used the full sized images displayed at 20x20px. This proved to be _very_ slow, so we converted all images natively. The first run is a bit slower, as all images have to be cached by the browser, but subsequent runs are now much faster.</li>
 		</ul>
 	</div>
 </div>

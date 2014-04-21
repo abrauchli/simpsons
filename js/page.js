@@ -27,10 +27,10 @@ var data = [
 {row: 1, col: 24, value: 0},
 {row: 1, col: 25, value: 0},
 ];
-hcrow = [1]; // change to gene name or probe id
-hccol = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]; // change to gene name or probe id
-rowLabel = ['Homer Simpson']; // change to gene name or probe id
-colLabel = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25']; // change to contrast name
+var hcrow = [1]; // change to gene name or probe id
+var hccol = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]; // change to gene name or probe id
+var rowLabel = ['Homer Simpson']; // change to gene name or probe id
+var colLabel = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25']; // change to contrast name
 
 var characterFilter = {
 	"filter": 1,
@@ -48,6 +48,9 @@ var currentStats = {
 	"numofFemale": 0,
 	"numofMale": 0
 }
+
+var tblItems = 25,
+	tblPage = 0;
 
 
 function main() {
@@ -244,6 +247,7 @@ function main() {
 		//console.log(characterFilter);
 	});
 
+	init_data_table();
 }
 
 function characterList() {
@@ -319,6 +323,96 @@ function voiceActorList(){
 
 function cleanOptions(id){
 	$('#'+id).empty();
+}
+
+function init_data_table() {
+	function printHeader(type) {
+		$('#tbldata').empty();
+		var th = '';
+        switch(type) {
+        case 'char':
+			th = '<th>Page</th><th>Name</th><th>Image</th><th>Gender</th><th>Alive</th>'
+				 + '<th>Age</th><th>Voiced By</th><th>Appearances</th>';
+            break;
+        case 'loc':
+			th = '<th>Page</th><th>Location</th><th>image</th><th>Appearances</th>';
+            break;
+        case 'seasons':
+			th = '<th>Episode</th><th>title</th><th>Original Airing</th>';
+        }
+		$('#tbldata').append('<table><thead>'+ th + '</thead><tbody id="tbldatabody"></tbody></table>');
+	}
+	function newPage(e) {
+		e.preventDefault();
+		if (e.target.id === 'tbldataprev' && tblPage > 0) {
+			tblPage -= 1;
+			onSourceChange(false);
+		} else if (e.target.id === 'tbldatanext') {
+			tblPage += 1;
+			onSourceChange(false);
+		}
+	}
+	function onSourceChange(reset) {
+        var val = $('#seldata').val();
+		var i;
+		printHeader(val);
+		if (reset !== false)
+			tblPage = 0;
+        switch (val) {
+        case 'char':
+			i = -1;
+			$.each(characters, function(k, o) {
+				i += 1;
+				if (i < tblPage * tblItems)
+					return; // skip
+				if (i >= (tblPage+1) * tblItems)
+					return false; // abort
+				var tr = [];
+				tr.push(o.page);
+				tr.push(o.name);
+				tr.push(o.image);
+				tr.push(o.gender);
+				tr.push(o.isAlive);
+				tr.push(o.age.join(' '));
+				tr.push(o.voicedBy.join('<br>'));
+				tr.push(o.appearances.length);
+				$('#tbldatabody').append('<tr><td>'+ tr.join('</td><td>') + '</tr></td>');
+			});
+            break;
+        case 'loc':
+			i = -1;
+			$.each(locations, function(k, o) {
+				i += 1;
+				if (i < tblPage * tblItems)
+					return; // skip
+				if (i >= (tblPage+1) * tblItems)
+					return false; // abort
+				var tr = [];
+				tr.push(o.page);
+				tr.push(o.location);
+				tr.push(o.image);
+				tr.push(o.appearances.length);
+				$('#tbldatabody').append('<tr><td>'+ tr.join('</td><td>') + '</tr></td>');
+			});
+            break;
+        case 'seasons':
+			$.each(episodes, function(i, o) {
+				if (i < tblPage * tblItems)
+					return; // skip
+				if (i >= (tblPage+1) * tblItems)
+					return false; // abort
+				var tr = [];
+				tr.push('S'+ o.s +', E'+ o.e);
+				tr.push(o.title);
+				tr.push(o.airing);
+				$('#tbldatabody').append('<tr><td>'+ tr.join('</td><td>') + '</tr></td>');
+			});
+        }
+	}
+    $('#tbldataprev').on('click', newPage);
+    $('#tbldatanext').on('click', newPage);
+    $('#seldata').on('change', onSourceChange);
+	onSourceChange();
 }
 
 $(main);

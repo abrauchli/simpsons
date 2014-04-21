@@ -41,6 +41,17 @@
 	height: 10px,
 }
 
+#tbldatabody {
+	font-size: small;
+	vertical-align: top;
+}
+#tbldatabody th {
+	font-weight: bold;
+}
+#tbldatabody tr {
+	border-bottom: solid 1px #777;
+}
+
 svg *::selection {
          background : transparent;
       }
