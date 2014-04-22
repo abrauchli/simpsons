@@ -300,9 +300,9 @@ function locationList(){
 
 function voiceActorList(){
 	cleanOptions('voiceActorSelect');
-	for (var v in voiceactors){
-		$('#voiceActorSelect').append('<option value="' + v + '">' + v +'</option>');
-	}
+	$.each(voiceactors, function(k, v) {
+		$('#voiceActorSelect').append('<option value="' + k + '">' + k +' ('+ v.length +') </option>');
+	});
 }
 
 function cleanOptions(id){
