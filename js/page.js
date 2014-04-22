@@ -230,8 +230,7 @@ function main() {
 		characterFilter['ageMax'] = slideEvt.value[1];
 		characterList();
 		//console.log(characterFilter);
-	});
-
+	});	
 	init_data_table();
 }
 
