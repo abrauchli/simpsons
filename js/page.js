@@ -60,14 +60,9 @@ function main() {
 	locationList();
 	voiceActorList();
 
-	for (var i=0; i<seasons.length;i++){
-		try{
-			$('#seasonSelect').append('<option value="' + (i+1).toString() + '">Season ' + seasons[i]['season'] + '-' + seasons[i]['years'] + '</option>');
-		}
-		catch(err){
-			console.log(i);
-		}
-	}
+	$.each(seasons, function(i, a) {
+		$('#seasonSelect').append('<option value="' + (i+1) + '">Season ' + a['season'] + '-' + a['years'] + '</option>');
+	});
 
 	$('#characterSelect').multiselect({
 		includeSelectAllOption: true,
