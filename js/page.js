@@ -1,32 +1,6 @@
 var selectedChar = "all";
 
-var data = [
-{row: 1, col: 1, value: 0},
-{row: 1, col: 2, value: 0},
-{row: 1, col: 3, value: 0},
-{row: 1, col: 4, value: 0},
-{row: 1, col: 5, value: 0},
-{row: 1, col: 6, value: 0},
-{row: 1, col: 7, value: 0},
-{row: 1, col: 8, value: 0},
-{row: 1, col: 9, value: 0},
-{row: 1, col: 10, value: 0},
-{row: 1, col: 11, value: 0},
-{row: 1, col: 12, value: 0},
-{row: 1, col: 13, value: 0},
-{row: 1, col: 14, value: 0},
-{row: 1, col: 15, value: 0},
-{row: 1, col: 16, value: 0},
-{row: 1, col: 17, value: 0},
-{row: 1, col: 18, value: 0},
-{row: 1, col: 19, value: 0},
-{row: 1, col: 20, value: 0},
-{row: 1, col: 21, value: 0},
-{row: 1, col: 22, value: 0},
-{row: 1, col: 23, value: 0},
-{row: 1, col: 24, value: 0},
-{row: 1, col: 25, value: 0},
-];
+var data = [];
 var hcrow = [1]; // change to gene name or probe id
 var hccol = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]; // change to gene name or probe id
 var rowLabel = ['Homer Simpson']; // change to gene name or probe id
@@ -103,8 +77,13 @@ function main() {
 		} else {
 			img.src="http://wsamarketplace.com/wp-content/themes/classifiedstheme/thumbs/no-image.jpg";
 		}
-		for (i = 0; i < data.length; ++i) {
-			data[i]["value"] = 0;
+		data = [];
+		for (i = 0; i < 25; ++i) {
+			var tmp =[];
+			tmp['row'] = 1;
+			tmp['col'] = i+1;
+			tmp['value'] = 0;
+			data.push(tmp);
 		}	
 		rowLabel[0] = crt['name'];		
 		for (c in characters) {
@@ -419,6 +398,21 @@ function init_data_table() {
     $('#tbldatanext').on('click', newPage);
     $('#seldata').on('change', onSourceChange);
 	onSourceChange();
+}
+
+function setSelectedValue(valueToSet) {
+	var selectObj = document.getElementById('characterSelect');	
+    for (var i = 0; i < selectObj.options.length; i++) {
+    	//console.log(selectObj.options[i]);
+        if (selectObj.options[i].value== valueToSet) {
+            selectObj.options[i].selected = true;  
+            console.log(selectObj.options[i].value);
+            var evt = document.createEvent("HTMLEvents");   //create a event
+            evt.initEvent("change", false, true);	//intial the event
+            selectObj.dispatchEvent(evt);       //dispath the onchange event
+            return;
+        }
+    }
 }
 
 $(main);
