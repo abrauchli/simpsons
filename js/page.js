@@ -108,20 +108,22 @@ function main() {
 		}
 		for (i = 0; i < data.length; ++i) {
 			data[i]["value"] = 0;
-		}		
+		}	
 		rowLabel[0] = crt['name'];		
 		for (c in characters) {
 			if (characters.hasOwnProperty(c)) {
-				for(i = 0; i < characters[c]["appearances"].length; ++i) {
-					//console.log(data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]);
-					try{
-						data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]++;
+				if (c === selected){
+					for(i = 0; i < characters[c]["appearances"].length; ++i) {
+						try{
+							data[episodes[characters[c]["appearances"][i]]["s"]-1]["value"]++;
+						}
+						catch(err){
+							//console.log(characters[c]);
+							//console.log(characters[c]["appearances"]);
+							//console.log(episodes[characters[c]["appearances"][i]]);
+						}
 					}
-					catch(err){
-						//console.log(characters[c]);
-						//console.log(characters[c]["appearances"]);
-						//console.log(episodes[characters[c]["appearances"][i]]);
-					}
+					break;
 				}
 			}
 		}
