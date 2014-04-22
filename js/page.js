@@ -147,6 +147,7 @@ function main() {
 
 	$('#seasonSelect').multiselect({
 		includeSelectAllOption: true,
+		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
 		maxHeight: 150
 	});
@@ -166,6 +167,7 @@ function main() {
 
 	$('#episodeSelect').multiselect({
 		includeSelectAllOption: true,
+		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
 		maxHeight: 150
 	});
@@ -185,6 +187,7 @@ function main() {
 
 	$('#locationSelect').multiselect({
 		includeSelectAllOption: true,
+		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
 		maxHeight: 150
 	});
@@ -205,6 +208,7 @@ function main() {
 	$('#voiceActorSelect').multiselect({
 		includeSelectAllOption: true,
 		enableFiltering: true,
+		enableCaseInsensitiveFiltering: true,
 		maxHeight: 150
 	});
 
