@@ -72,6 +72,8 @@ function main() {
 	$('#characterSelect').multiselect({
 		includeSelectAllOption: true,
 		enableFiltering: true,
+		filterBehavior: 'both', // filter value and text
+		enableCaseInsensitiveFiltering: true,
 		label: function(element) {
 			if (element.value === 'multiselect-all' || !element.value)
 					return element.innerHTML;
