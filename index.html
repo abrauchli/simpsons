@@ -77,7 +77,8 @@
 
 	</div>
 	<div class="tab-pane active" id="Simpsons">
-	<div id="movieNetwork"></div><div id="movieInfo" class="panel_off"></div>
+	<div id="movieNetwork"></div><button type="button" class="btn btn-info" id="iconbutton">Icon/No Icon</button></div>
+<div id="movieInfo" class="panel_off"></div>
 <div id="dashboard">
 <div class="panel-group" id="accordion">
   <div class="panel panel-default">
@@ -92,11 +93,12 @@
 	  <div class="panel-body">
 		<select id="characterSelect"></select> <br> <!--multiple="multiple"-->
 		<div class="btn-group" style="margin-top:2px">
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Homer_Simpson.png" height="25"></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Marge_Simpson.png" height="25" ></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Bart_Simpson.png" height="25"></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Lisa_Simpson.png" height="25"></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Maggie_Simpson.png" height="25"></button>
+
+		<button type="button" class="btn btn-info" onClick="setSelectedValue('Homer Simpson')"><img class="characterIcon" src="images/Homer_Simpson.png" height="25"></button>
+		<button type="button" class="btn btn-info" onClick="setSelectedValue('Bart Simpson')"><img class="characterIcon" src="images/Marge_Simpson.png" height="25" ></button>
+		<button type="button" class="btn btn-info" onClick="setSelectedValue('Marge Simpson')"><img class="characterIcon" src="images/Bart_Simpson.png" height="25"></button>
+		<button type="button" class="btn btn-info" onClick="setSelectedValue('Lisa Simpson')"><img class="characterIcon" src="images/Lisa_Simpson.png" height="25"></button>
+		<button type="button" class="btn btn-info" onClick="setSelectedValue('Maggie Simpson')"><img class="characterIcon" src="images/Maggie_Simpson.png" height="25"></button>
 		</div><br>
 		<div class="container" style="margin-top:2px"><input id="male" type="checkbox" checked="checked" > M <input id="female" type="checkbox" checked="checked"> F
 &nbsp;&nbsp;&nbsp; Age <b> 1 &nbsp;</b> <input id="ageSlider" type="text" class="span2" value="" data-slider-min="1" data-slider-max="100" data-slider-step="5" data-slider-value="[0,100]"/> <b> &nbsp;&nbsp;100</b></div>
