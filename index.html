@@ -1,8 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<Title>We are family!</Title>
+<meta charset="UTF-8">
+<title>We are family!</title>
 <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/style.css">
@@ -17,11 +17,11 @@
 <script src="js/character-net.js"></script>
 <link rel="stylesheet" href="css/movie-network.css"/>
 
-<script src="js/page.js"></script>
-<script src="data/data.js"></script>
-<script src="data/season.js"></script>
-<script src="js/heatmap.js"></script>
-<script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="data/data.js"></script>
+<script type="text/javascript" src="data/season.js"></script>
+<script type="text/javascript" src="js/heatmap.js"></script>
+<script type="text/javascript">
 	  // Sniff MSIE version
 	  // http://james.padolsey.com/javascript/detect-ie-in-js-using-conditional-comments/
 	  var ie = ( function() {
@@ -62,7 +62,7 @@
 	<li><a data-toggle="tab" href="#Weekly">Weekly Report</a></li>
 </ul>
 <div class="tab-content">
-	<div class="tab-pane" bgcolor="" id="Home">
+	<div class="tab-pane" id="Home">
 	<div class="container">
 	<div class="row">
 		<div class="col-md-2">
@@ -92,15 +92,15 @@
 	  <div class="panel-body">
 		<select id="characterSelect"></select> <br> <!--multiple="multiple"-->
 		<div class="btn-group" style="margin-top:2px">
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Homer_Simpson.png" height="25.5px"></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Marge_Simpson.png" height="25.5px" ></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Bart_Simpson.png" height="25.5px"></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Lisa_Simpson.png" height="25.5px"></button>
-		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Maggie_Simpson.png" height="25.5px"></button>
+		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Homer_Simpson.png" height="25"></button>
+		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Marge_Simpson.png" height="25" ></button>
+		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Bart_Simpson.png" height="25"></button>
+		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Lisa_Simpson.png" height="25"></button>
+		<button type="button" class="btn btn-info"><img class="characterIcon" src="images/Maggie_Simpson.png" height="25"></button>
 		</div><br>
 		<div class="container" style="margin-top:2px"><input id="male" type="checkbox" checked="checked" > M <input id="female" type="checkbox" checked="checked"> F
 &nbsp;&nbsp;&nbsp; Age <b> 1 &nbsp;</b> <input id="ageSlider" type="text" class="span2" value="" data-slider-min="1" data-slider-max="100" data-slider-step="5" data-slider-value="[0,100]"/> <b> &nbsp;&nbsp;100</b></div>
-		<table><tr><td><button type="button" class="btn btn-default" style="margin-top:2px"><img id="selectedCharacterIcon" height="160px" width="100px" src="images/default.png"></button></td><td><div id="selectedCharacterInfo"></div></td></tr></table>
+		<table><tr><td><button type="button" class="btn btn-default" style="margin-top:2px"><img id="selectedCharacterIcon" height="160" width="100" src="images/default.png"></button></td><td><div id="selectedCharacterInfo"></div></td></tr></table>
 	  </div>
 	</div>
   </div>
@@ -117,7 +117,7 @@
 		Season <select id="seasonSelect" multiple="multiple"></select> <br><br>
 		Episode <select id="episodeSelect" multiple="multiple"></select> <br><br>
 		Location <select id="locationSelect" ></select><br>
-		<button type="button" class="btn btn-default" style="margin-top:2px"><img id="selectedLocationIcon" height="160px" src="http://img2.wikia.nocookie.net/__cb20130730092206/simpsons/images/6/60/Shavings2.jpg"></button>
+		<button type="button" class="btn btn-default" style="margin-top:2px"><img id="selectedLocationIcon" height="160" src="http://img2.wikia.nocookie.net/__cb20130730092206/simpsons/images/6/60/Shavings2.jpg"></button>
 	  </div>
 	</div>
   </div>
@@ -141,7 +141,7 @@
 
 		</div>
 		<div id="tooltip" class="hidden">
-		<p><span id="value"></p>
+		<p><span id="value"></span></p>
 </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <br><br>
@@ -177,7 +177,7 @@
 			<ul>
 			<li>Parse the data from wikia</li>
 			<li>Design the layout<br>
-				<img width="900px" src="images/layout_04_02.png">
+				<img width="900" src="images/layout_04_02.png">
 			</li>
 			</ul>
 		</li>
@@ -214,8 +214,3 @@
 </div>
 </body>
 </html>
-<script type="text/javascript">
-
-
-
-</script>
