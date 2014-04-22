@@ -125,7 +125,7 @@ function main() {
 			}
 		}
 		var info = document.getElementById('selectedCharacterInfo');
-		info.innerHTML = '<table class="table"><thead><tr><th>'+crt['name']+'</th></thead><tbody><tr><td>'+crt['gender']+'</td></tr><tr><td>'+crt['age'][0]+'</td></tr><tr><td>'+crt['cooc'][0]+'</td></tr></tbody></table>';
+		info.innerHTML = '<table class="table"><thead><tr><th>'+crt['name']+'</th></thead><tbody><tr><td>'+crt['gender']+'</td></tr><tr><td>'+crt['age'][0]+'</td></tr><tr><td>'+ $.map(crt['cooc'], function(a,i){ return a[0] +' ('+a[1]+')'; }).join(', ') +'</td></tr></tbody></table>';
 		/*
 		for (var i=0; i<characters[selected]['appearances'].length;i++){
 			for (var j=0; j<episodes.length;j++){
