@@ -310,8 +310,7 @@ circle.sibling {
 }
 
 circle.main {
-    /*fill: red;*/
-    fill: #732A9A;
+    /*fill: #732A9A;*/
     fill-opacity: 1.0;
 }
 
