@@ -1,6 +1,7 @@
 /* ---------------------------------------------------------------------------
    (c) Telefï¿½nica I+D, 2013
    Author: Paulo Villegas
+   (c) Andreas Brauchli, Tianli Mo, 2014 (Changes)
 
    This script is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
