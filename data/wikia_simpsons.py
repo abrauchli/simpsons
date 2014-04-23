@@ -233,9 +233,11 @@ def parse_character(page, wiki, character):
             except:
                 print("Wrong Ep template usage in "+ pagename, file=sys.stderr)
 
-    if c['appearances']:
+    if c['appearances'] or pagename == 'Homer Simpson':
         # Only add characters with appearances in canonical episodes
         characters[pagename] = c
+    else:
+        print("No appearances in "+ pagename, file=sys.stderr)
 
 
 def replace_appearances(dic):
@@ -264,8 +266,11 @@ def replace_appearances(dic):
             delkeys.append(k)
 
     # remove items with no appearances
+    print('Removing charaters beacause of non-canon appearances:', file=sys.stderr)
     for k in delkeys:
-        del dic[k]
+        if k != 'Homer Simpson':
+            print('\t'+ k, file=sys.stderr)
+            del dic[k]
 
 
 def character_coocurrance():
