@@ -281,7 +281,7 @@ function D3ok() {
     .data(nodeArray.filter(function(d) { return !!d.img && d.cooc.length > 40; }))
     .enter()
     .append('pattern')
-      .attr('id', function(d) { return d.img.replace(/ /g, '_'); })
+      .attr('id', function(d) { return d.img.replace(/[ '()]/g, '_'); })
       //.attr('x', 0).attr('y', 0)
       //.attr('patternUnits', 'userSpaceOnUse')
       .attr('height', 20).attr('width', 20);
@@ -335,7 +335,7 @@ function D3ok() {
       }
     })
     .attr('pointer-events', 'all')
-    .attr('fill', function(d) { return d.img && d.cooc.length > 40 ? 'url(#'+ d.img.replace(/ /g, '_') +')' : ''; })
+    .attr('fill', function(d) { return d.img && d.cooc.length > 40 ? 'url(#'+ d.img.replace(/[ '()]/g, '_') +')' : ''; })
     //.on("click", function(d) { highlightGraphNode(d,true,this); } )
     .on("click", function(d) { showMoviePanel(d); } )
     .on("mouseover", function(d) { highlightGraphNode(d,true,this);  } )
