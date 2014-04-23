@@ -277,8 +277,8 @@ circle {
 circle.levels {				/* selected character*/
     fill-opacity: 0.9;
     stroke-opacity: 0.9;
-    fill: #2E2EFE;
-    stroke: #2E2EFE;
+    fill: #000000;
+    stroke: grey;
 }
 circle.levelo {				/* cooc of selected character*/
     fill-opacity: 0.9;

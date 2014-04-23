@@ -399,6 +399,10 @@ function init_data_table() {
 	onSourceChange();
 }
 
+function showHideIcon(){
+	
+}
+
 function setSelectedValue(valueToSet) {
 	var selectObj = document.getElementById('characterSelect');	
     for (var i = 0; i < selectObj.options.length; i++) {

@@ -8,7 +8,7 @@ var margin = { top: 150, right: 10, bottom: 50, left: 100 },
   //gridSize = Math.floor(width / 24),
   legendElementWidth = cellSize*2.5,
   colorBuckets = 21,
-  colors = ['#FBFBEF','#FBFBEF','#FBFBEF','#F7F8E0','#F7F8E0','#F5F6CE','#F5F6CE','#F2F5A9','#F2F5A9','#EDF8FB','#F3F781','#F3F781','#F4FA58','#F4FA58','#F7FE2E','#F7FE2E','#F7FE2E','#FFFF00','#FFFF00','#FFFF00','#FFFF00'];
+  colors = ['#010100','#010100','#010100','#010100','#010100','#010100','#1D1900','#302800','#403600','#514500','#615300','#705F00','#806D01','#907A00','#9F8700','#B09500','#C0A300','#D3B401','#E8C500','#F4CF00','#FFD800'];
 
 
 
