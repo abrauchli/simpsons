@@ -78,7 +78,7 @@ def main():
 
     ind = None #2
     sk = False #True
-    replace_appearances(characters)
+    replace_appearances(characters, characters=True)
     replace_appearances(locations)
     character_coocurrance()
     print('var episodes = '+ json.dumps(episodes, indent=ind, sort_keys=sk) +';')
@@ -248,7 +248,7 @@ def parse_character(page, wiki, character):
         print("No appearances in "+ pagename, file=sys.stderr)
 
 
-def replace_appearances(dic):
+def replace_appearances(dic, characters = False):
     delkeys = []
     for k in dic.keys():
         v = dic[k]
@@ -273,8 +273,13 @@ def replace_appearances(dic):
         if not ap:
             delkeys.append(k)
 
+    # Special case for Homer Simpson which appears in all episodes but doesn't
+    # have an appearances list
+    if characters:
+        dic['Homer Simpson']['appearances'] = list(range(len(episodes)))
+
     # remove items with no appearances
-    print('Removing charaters beacause of non-canon appearances:', file=sys.stderr)
+    print('Removing charaters/locations beacause of non-canon appearances:', file=sys.stderr)
     for k in delkeys:
         if k != 'Homer Simpson':
             print('\t'+ k, file=sys.stderr)
