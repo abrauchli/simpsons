@@ -345,12 +345,12 @@ function D3ok() {
     .attr('id', function(d) { return "c" + d.index; } )
     .attr('class', function(d) {
       if (d.page === selectedChar)
-        return 'node level3';
+        return 'node level1';
       return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
     })
     .attr('r', node_size)
     .attr('pointer-events', 'all')
-    .attr('fill', function(d) { return d.img && d.cooc.length > 40 ? 'url(#'+ d.img.replace(/[ '()]/g, '_') +')' : ''; })
+    .attr('fill', function(d) { return d.img && d.cooc.length > 40 ? 'url(#'+ d.img.replace(/[ '()]/g, '_') +')' : 'rgba(50,50,250,0.1)'; })
     //.on("click", function(d) { highlightGraphNode(d,true,this); } )
     .on("click", function(d) { showMoviePanel(d); } )
     .on("mouseover", function(d) { highlightGraphNode(d,true,this);  } )
