@@ -148,7 +148,7 @@ function D3ok() {
     info = '<div id="cover">';
     info += '<div class="cover-name">' + n.page + '</div>';
     if (images[n.image])
-      info += '<img class="cover-image" height="200" src="' + images[n.image] + '" title="' + n.page + '"/>';
+      info += '<img class="cover-image" style="max-height:200px;max-width:190px;" src="' + images[n.image] + '" title="' + n.page + '"/>';
     info += '<div class="cover-link">Full details on the <a href="http://simpsons.wikia.com/wiki/'+ n.page +'" target="_new">Simpsons Wiki</a></div>';
 
     info +=
