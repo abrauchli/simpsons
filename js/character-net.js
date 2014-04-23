@@ -298,6 +298,11 @@ function D3ok() {
     .range([1,3])
     .clamp(true);
 
+var edge_opacity = d3.scale.pow().exponent(0.0125)
+  .domain([minLinkWeight,maxLinkWeight])
+  .range([0,1])
+  .clamp(true);
+
   /* Add drag & zoom behaviours */
   svg.call( d3.behavior.drag()
       .on("drag",dragmove) );
@@ -335,6 +340,7 @@ function D3ok() {
     .data(linkArray, function(d) {return d.source.page+'-'+d.target.page;} )
     .enter().append("line")
     .style('stroke-width', function(d) { return edge_width(d.weight);} )
+    .style('stroke-opacity', function(d) { return edge_opacity(d.weight);} )
     .attr("class", "link");
 
   // nodes: an SVG circle
