@@ -192,7 +192,15 @@ def parse_character(page, wiki, character):
                 except:
                     pass
             if s:
-                vtmp.append(s)
+                if s[0] != '(' and s not in [
+                    'none', 'N/A', '"', 'No one (Nonspeaking in the series)',
+                    'No Voice', ' ', 'in "', '&', 'and', 'uknown', 'Unknow',
+                    'and this Unknown or None', '?', '&nbsp;', 'Status=', ')',
+                    'Various', 'nome', 'unknown', 'Probably', 'Nobody', '\u00a0'
+                ]:
+                    if s[0:10] == 'wikipedia:':
+                        s = s[10:]
+                    vtmp.append(s)
         if vtmp:
             for v in vtmp:
                 if v not in voiceactors:
