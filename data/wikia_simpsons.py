@@ -77,7 +77,7 @@ def main():
                     print('Unknown error: '+ page.title.text, file=sys.stderr)
 
     ind = None #2
-    sk = False #True
+    sk = True
     replace_appearances(characters, characters=True)
     replace_appearances(locations)
     character_coocurrance()
