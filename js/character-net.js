@@ -179,75 +179,101 @@ function D3ok() {
   // *************************************************************************
 
 (function() {
-  var highChars = []; // highlighted characters
-  var data = { nodes: [], links: [] },
+  var highChars = {}, // highlighted characters
+      data = { nodes: [], links: [] },
       idx = {},
       i = 0;
 
-  // Deep-clone all characters into data.nodes array
-  $.each(characters, function(k, o) {
-    if (k === selectedChar) {
-      var selectedSize = 0;
-      $.each(o.cooc, function(ci, e) {
-        selectedSize += e[1];
-        highChars[e[0]] = e[1];
-      });
-      highChars[k] = selectedSize;
-    } else {
-      var isSel = false;
-      if (selectedChar) {
-        $.each(o.cooc, function(c, vo) {
-          if (vo[0] === selectedChar) {
-            isSel = true;
-            return false;
-          }
-        });
-      }
-      if (!isSel && (o.cooc.length == 0 || o.cooc[0][1] < 10))
-        return; // skip this node
-    }
-
+  function addCloneObj(o) {
+    // Deep-clone all characters into data.nodes array
     var c = $.extend(true, {}, o);
     c.index = i; // put the array index on the clone
     if (c.image)
         c.img = c.image.substr(c.image[0] === 'F' ? 5 : 6);
     data.nodes.push(c);
-    idx[k] = i++;
-  });
-  $.each(data.nodes, function(i, o) {
-    $.each(o.cooc, function(ci, e) {
-      if (e[1] < 10) // ignore links between all nodes with < 10 coocurrances
-        return false; // abort since cooc is sorted
+    idx[o.page] = i++;
+  }
 
-      var tgt = idx[e[0]],
-          l = {
-            source: i,
-            target: tgt,
-            weight: e[1] / 459 // the maximal value
-          };
-      data.links.push(l);
-
-      var cooc = data.nodes[tgt].cooc,
-          j;
-      // remove reciprocal link
-      for (j = 0; j < cooc.length; ++j) {
-        if (cooc[j][0] === o.page) {
-          cooc.splice(1, i);
-          break;
-        }
-      }
+  if (selectedChar === 'all' || !characters[selectedChar]) {
+    $.each(characters, function(k, o) {
+      addCloneObj(o);
     });
-  });
+    $.each(data.nodes, function(i, o) {
+      $.each(o.cooc, function(ci, e) {
+        if (e[1] < 10) // ignore links between all nodes with < 10 coocurrances
+          return false; // abort since cooc is sorted
+
+        var tgt = idx[e[0]],
+            l = {
+              source: i,
+              target: tgt,
+              weight: e[1] / 459 // the maximal value
+            };
+        data.links.push(l);
+
+        var cooc = data.nodes[tgt].cooc,
+            j;
+        // remove reciprocal link
+        for (j = 0; j < cooc.length; ++j) {
+          if (cooc[j][0] === o.page) {
+            cooc.splice(1, i);
+            break;
+          }
+        }
+      });
+    });
+
+  } else {
+    var o = characters[selectedChar];
+    var selectedSize = 0;
+    addCloneObj(o);
+    $.each(o.cooc, function(idx, a) {
+      selectedSize += a[1];
+      highChars[a[0]] = a[1];
+
+      addCloneObj(characters[a[0]]);
+    });
+    highChars[selectedChar] = selectedSize;
+
+    $.each(data.nodes, function(i, o) {
+      $.each(o.cooc, function(ci, e) {
+        if (!idx[e[0]]) // ignore links to hidden characters
+          return;
+
+        var tgt = idx[e[0]],
+            l = {
+              source: i,
+              target: tgt,
+              weight: e[1] / selectedSize // the maximal value
+            };
+        data.links.push(l);
+
+        var cooc = data.nodes[tgt].cooc,
+            j;
+        // remove reciprocal link
+        for (j = 0; j < cooc.length; ++j) {
+          if (cooc[j][0] === o.page) {
+            cooc.splice(1, i);
+            break;
+          }
+        }
+      });
+    });
+  }
 
 
   // Declare the variables pointing to the node & link arrays
   var nodeArray = data.nodes;
   var linkArray = data.links;
 
-  minLinkWeight = 0.0;
-    //Math.min.apply( null, linkArray.map( function(n) {return n.weight;} ) );
-  maxLinkWeight = 1.0;
-    //Math.max.apply( null, linkArray.map( function(n) {return n.weight;} ) );
+  var maxNodeWeight =
+    selectedChar === 'all'
+      ? 549
+      : Math.max.apply( null, nodeArray.map( function(n) {return highChars[n.page];} ) );
+  var minLinkWeight = //0.0;
+    Math.min.apply( null, linkArray.map( function(n) {return n.weight;} ) );
+  var maxLinkWeight = //1.0;
+    Math.max.apply( null, linkArray.map( function(n) {return n.weight;} ) );
 
   // Add the node & link arrays to the layout, and start it
   force
@@ -256,10 +282,17 @@ function D3ok() {
     .start();
 
   // A couple of scales for node radius & edge width
-  var node_size = d3.scale.linear()
-    .domain([/*1*/10,549]) // clamp anything < 10
-    .range([1,16])
-    .clamp(true);
+  var node_size_f = d3.scale.linear();
+  if (selectedChar === 'all')
+    node_size_f = node_size_f.domain([10,549]);
+  else
+    node_size_f = node_size_f.domain([1,maxNodeWeight]);
+  node_size_f = node_size_f.range([1,16]).clamp(true);
+  function node_size(d) {
+    if (selectedChar === 'all')
+      return node_size_f(d.cooc.length);
+    return node_size_f(highChars[d.page]);
+  };
   var edge_width = d3.scale.linear() // used to be pow().exponent(8) instead of linear
     .domain([minLinkWeight,maxLinkWeight])
     .range([1,3])
@@ -311,29 +344,11 @@ function D3ok() {
     .enter().append("svg:circle")
     .attr('id', function(d) { return "c" + d.index; } )
     .attr('class', function(d) {
-      //console.log(selectedChar);
-      if(selectedChar !== "all"){
-        if(highChars[d.page] !== undefined){
-          return (d.page === selectedChar) ? 'node levels' : 'node levelo';
-        }
-      } else {
-        return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
-      }
+      if (d.page === selectedChar)
+        return 'node level3';
+      return 'node level'+ (d.cooc.length < 5 ? 3 : d.cooc.length < 30 ? 2 : 1);
     })
-    .attr('r', function(d) {
-      if (selectedChar !== "all") {
-        if (highChars[d.page] !== undefined) {
-          //console.log(highChars[d.page]);
-          return node_size(highChars[d.page]*50 < 500? highChars[d.page]*50 : 500);
-        } else {
-          return node_size(50);
-        }
-
-        //return node_size(d.cooc.length);
-      } else {
-        return node_size(d.cooc.length);
-      }
-    })
+    .attr('r', node_size)
     .attr('pointer-events', 'all')
     .attr('fill', function(d) { return d.img && d.cooc.length > 40 ? 'url(#'+ d.img.replace(/[ '()]/g, '_') +')' : ''; })
     //.on("click", function(d) { highlightGraphNode(d,true,this); } )
@@ -549,9 +564,13 @@ function D3ok() {
   });
 
   /* A small hack to start the graph with a movie pre-selected */
-  mid = getQStringParameterByName('id')
-  if( mid != null )
-    clearAndSelect( mid );
+  if (selectedChar !== 'all') {
+    clearAndSelect(idx[selectedChar]);
+  } else {
+    var mid = getQStringParameterByName('id')
+    if( mid != null )
+      clearAndSelect( mid );
+  }
 })();
 
 } // end of D3ok()
