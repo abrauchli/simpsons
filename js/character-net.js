@@ -233,7 +233,7 @@ function D3ok() {
 
       addCloneObj(characters[a[0]]);
     });
-    highChars[selectedChar] = selectedSize;
+    highChars[selectedChar] = selectedSize / (selectedSize > 0 ? o.cooc[0][1] : 1);
 
     $.each(data.nodes, function(i, o) {
       $.each(o.cooc, function(ci, e) {
@@ -244,7 +244,7 @@ function D3ok() {
             l = {
               source: i,
               target: tgt,
-              weight: e[1] / selectedSize // the maximal value
+              weight: e[1] / highChars[selectedChar] // the maximal value
             };
         data.links.push(l);
 
