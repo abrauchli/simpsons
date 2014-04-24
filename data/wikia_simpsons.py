@@ -212,6 +212,8 @@ def parse_character(page, wiki, character):
     if img:
         img = img[0].title.strip_code()
         images.append(img)
+    else:
+        img = False
 
     gender = '?'
     if t.has('gender'):
