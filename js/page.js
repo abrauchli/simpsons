@@ -30,7 +30,7 @@ var tblItems = 25,
 
 function isCharacterShown(c) {
 	if ((!characterFilter['male'] && c['gender'] === "M")
-		|| (!characterFilter['female'] && c['gender'] === "W")
+		|| (!characterFilter['female'] && c['gender'] === "F")
 		|| (!characterFilter['showSingle'] && c['appearances'].length === 1))
 		return false;
 
