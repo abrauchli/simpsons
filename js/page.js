@@ -46,6 +46,9 @@ function isCharacterFiltered(c) {
 		}
 	}
 	return filtered;
+
+function refreshGraph() {
+	D3ok();
 }
 
 function main() {
@@ -91,7 +94,7 @@ function main() {
 			i, c;
 		selectedChar = selected;	
 		document.getElementById('chart').innerHTML = '';	
-		D3ok();	
+		refreshGraph();
 		
 		if (images[crt['image']]) {
 			img.src = images[crt['image']];
@@ -277,6 +280,7 @@ function characterList() {
 			: '');
 		$('#characterSelect').append('<option value="' + c['page'] + '"'+ img +'>' + c['name'] + '</option>');
 	});
+	refreshGraph();
 }
 
 function episodeList(){
