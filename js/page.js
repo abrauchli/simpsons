@@ -81,7 +81,7 @@ function main() {
 			ret += '</ul>';
 			return ret;
 		},
-		maxHeight: 250
+		maxHeight: 350
 	});
 	$('#characterSelect').change(function(e) {
 		//console.log(this.options[e.target.selectedIndex].value);		
@@ -147,7 +147,7 @@ function main() {
 		includeSelectAllOption: true,
 		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
-		maxHeight: 250
+		maxHeight: 350
 	});
 
 	$('#seasonSelect').change(function (){
@@ -167,7 +167,7 @@ function main() {
 		includeSelectAllOption: true,
 		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
-		maxHeight: 190
+		maxHeight: 350
 	});
 	$('#episodeSelect').change(function (){
 		var o = document.getElementById("episodeSelect");
@@ -187,7 +187,7 @@ function main() {
 		includeSelectAllOption: true,
 		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
-		maxHeight: 150
+		maxHeight: 350
 	});
 
 	$('#locationSelect').change(function(){
@@ -207,7 +207,7 @@ function main() {
 		includeSelectAllOption: true,
 		enableFiltering: true,
 		enableCaseInsensitiveFiltering: true,
-		maxHeight: 250
+		maxHeight: 350
 	});
 
 	$('#voiceActorSelect').change(function(){

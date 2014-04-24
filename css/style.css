@@ -6,6 +6,12 @@
 .panel-body{
 	height: 300px;
 }
+#accordion .panel {
+	overflow: visible;
+}
+#accordion .dropdown-menu {
+	max-width:425px;
+}
 
 #movieNetwork{
     float: top;
@@ -14,6 +20,16 @@
 	margin-left: 505px;
 }
 
+#selectedCharacterIcon {
+	max-height:150px;
+	max-width:400px;
+}
+#selectedCharacterInfo td {
+	padding: 3px;
+}
+#selectedCharacterInfo table {
+	margin-bottom: 0;
+}
 
 .charsel{
 	list-style: none;
