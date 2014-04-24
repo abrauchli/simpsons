@@ -54,17 +54,6 @@ function refreshGraph() {
 }
 
 function main() {
-	$('.multiselect').multiselect();
-	characterList();
-	refreshGraph();
-	episodeList();
-	locationList();
-	voiceActorList();
-
-	$.each(seasons, function(i, a) {
-		$('#seasonSelect').append('<option value="' + (i+1) + '">Season ' + a['season'] + '-' + a['years'] + '</option>');
-	});
-
 	$('#characterSelect').multiselect({
 		includeSelectAllOption: true,
 		enableFiltering: true,
@@ -88,6 +77,14 @@ function main() {
 			return ret;
 		},
 		maxHeight: 350
+	});
+	characterList();
+	episodeList();
+	locationList();
+	voiceActorList();
+
+	$.each(seasons, function(i, a) {
+		$('#seasonSelect').append('<option value="' + (i+1) + '">Season ' + a['season'] + '-' + a['years'] + '</option>');
 	});
 	$('#characterSelect').change(function(e) {
 		//console.log(this.options[e.target.selectedIndex].value);		
@@ -426,6 +423,7 @@ function characterList() {
 			: '');
 		$('#characterSelect').append('<option value="' + c['page'] + '"'+ img +'>' + c['name'] + '</option>');
 	});
+	$('#characterSelect').multiselect('rebuild');
 	refreshGraph();
 }
 

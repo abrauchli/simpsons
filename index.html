@@ -51,7 +51,7 @@
 	</div>
 	<div class="tab-pane active" id="Simpsons">
 	<div id="movieNetwork"></div>
-<div id="movieInfo" class="panel_off"></div><button type="button" class="btn btn-info" onClick="showHideIcon();" id="iconbutton">Show/Hide Icons</button>
+<div id="movieInfo" class="panel_off"></div>
 <div id="dashboard">
 <div class="panel-group" id="accordion">
   <div class="panel panel-default">
@@ -140,13 +140,18 @@
 	<div class="tab-pane" id="About">
 		<h3>About</h3>
 		<p>This page has been created by Tianli Mo and Andreas Brauchli.</p>
-		<p>The page visualizes The Simpsons show and allows you to explore it...</p>
+		<p>The page assists you in analyzing the prominent Simpsons TV series.</p>
+		<p>There is no guarantee that any data is correct! Most of it is automatically extracted from an unofficial source.</p>
 
 		<h3>Sources</h3>
 		<p>
 		All data is extracted from the <a href="http://simpsons.wikia.com/wiki/Special:Statistics">Simpsons Wiki</a>. The data parser is available on our <a href="https://github.com/abrauchli/simpsons/blob/master/data/wikia_simpsons.py">GitHub repository</a>.<br>
 		All pictures are copyrighted by their respective owners.
 		</p>
+		<h3>Interesting Findings</h3>
+		<p>We note that about 2/3 of all characters all males. We don't dare drawing conclusions.</p>
+		<p>Keifer Sutherland and Mary Lynn Rajskub voice their own "24" characters.</p>
+
 	</div>
 	<div class="tab-pane" id="Weekly">
 		<h3>Weekly Report</h3>
@@ -189,6 +194,7 @@
 		<h3>Interesting Development Findings</h3>
 		<ul>
 			<li>While parsing the Simpsons wikia pages, we found that "February" was misspelled as "Febuary" a few times. Our date parser also found other typos in month names. All found typos were corrected upstream.</li>
+			<li>The parser revealed and lead to the fixing over 30 pages with semantic errors on the Simpons Wiki.</li>
 			<li>Parsing the XML wikia data dump file of ca. 100Mb took about 6 minutes on a Core2Duo 1.4Ghz, 4Gb ram and consumed a good 2Gb of ram. We thus wrote an XSLT to pre-parse the XML file to get rid of unneeded nodes. This got the file size down to ca. 30Mb, the parsing time is now 90s and only consumes 400Mb of ram.</li>
 			<li>Parsing the XML wikia data dump, we noted that images or their URLs are not stored. The wiki file name (File:Foo.png) had to be retrieved/resolved to an image URL using the site's API service.</li>
 			<li>The tension graph can be quite slow when shown in full. Also, a full graph doesn't leave any blank spots on the screen so some of the less important connections had to be hidden.</li>
