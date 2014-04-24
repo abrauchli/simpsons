@@ -135,11 +135,6 @@ function main() {
 			}		
 			rowLabel[0] = crt['page'];
 		}
-		//console.log(data);
-		//console.log(hcrow);
-		//console.log(hccol);
-		//console.log(rowLabel);
-		//console.log(colLabel);
 		
 		for (c in characters) {
 			if (characters.hasOwnProperty(c)) {
@@ -201,7 +196,6 @@ function main() {
 		var selected = this.options[e.target.selectedIndex].value;
 		var selectedSeason = selected;	
 		document.getElementById('chart').innerHTML = '';		
-		//console.log(selectedSeason);
 				
 		data = [];
 		hcrow = []; 
@@ -219,7 +213,6 @@ function main() {
 				try{
 					if(episodes[characters[c]["appearances"][i]]["s"] == parseInt(selectedSeason)){
 						tmp[1]++;
-						//console.log(episodes[characters[c]["appearances"][i]]);
 					}				
 				}
 				catch(err){
@@ -262,8 +255,7 @@ function main() {
 		*/
 		var selectedEpisode = this.options[e.target.selectedIndex].value;
 		document.getElementById('chart').innerHTML = '';		
-		//console.log(selectedSeason);
-				
+		//console.log(selectedSeason);				
 		data = [];
 		hcrow = []; 
 		hccol = [];
@@ -295,7 +287,6 @@ function main() {
 			colLabel.push(chars[i][0]);
 		}		
 		heatmap();	
-		//console.log(selectedSeasons);
 	});
 
 
@@ -306,7 +297,8 @@ function main() {
 		maxHeight: 350
 	});
 
-	$('#locationSelect').change(function(){
+	$('#locationSelect').change(function(e){
+		/*
 		var selected = document.getElementById('locationSelect');
 		var selectedIndex = selected.options[selected.selectedIndex].value;
 		//alert(selectedIndex);
@@ -317,6 +309,46 @@ function main() {
 		else{
 			img.src="http://wsamarketplace.com/wp-content/themes/classifiedstheme/thumbs/no-image.jpg";
 		}
+		*/
+		
+		var selectedLocation = this.options[e.target.selectedIndex].value;
+		document.getElementById('chart').innerHTML = '';					
+		data = [];
+		hcrow = []; 
+		hccol = [];
+		rowLabel = [];
+		colLabel = [];	
+		var chars = []
+		rowLabel[0] = selectedLocation;
+		console.log(selectedLocation);
+		hcrow[0] = 1;
+		
+		locationEpisodes = locations[selectedLocation]["appearances"];
+		
+		for (c in characters) {
+			var tmp = [];
+			tmp[0] = c;
+			tmp[1] = 0;
+			for(i = 0; i < characters[c]["appearances"].length; ++i) {	
+				if(locationEpisodes.indexOf(characters[c]["appearances"][i])>-1){
+					tmp[1]++;
+				}		
+			}
+			chars.push(tmp);
+		}		
+		
+		chars = chars.sort(function(a, b){ return (a[1] > b[1] ? -1 : (a[1] < b[1] ? 1 : 0)); });		
+		for (i = 0; i < numofSeasons; ++i) {
+			var tmp =[];
+			tmp['row'] = 1;
+			tmp['col'] = i+1;
+			tmp['value'] = chars[i][1];
+			data.push(tmp);
+			hccol.push(i+1);
+			colLabel.push(chars[i][0]);
+		}
+		heatmap();	
+		
 	});
 
 	$('#voiceActorSelect').multiselect({
