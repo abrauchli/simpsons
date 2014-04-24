@@ -275,7 +275,7 @@ def replace_appearances(dic, characters = False):
 
     # Special case for Homer Simpson which appears in all episodes but doesn't
     # have an appearances list
-    if characters:
+    if characters and 'Homer Simpson' in dic:
         dic['Homer Simpson']['appearances'] = list(range(len(episodes)))
 
     # remove items with no appearances
