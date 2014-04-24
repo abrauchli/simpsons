@@ -263,7 +263,7 @@ function main() {
 		rowLabel = [];
 		colLabel = [];	
 		var chars = []
-		rowLabel[0] = episodes[selectedEpisode];
+		rowLabel[0] = episodes[selectedEpisode]["title"];
 		hcrow[0] = 1;
 		for (c in characters) {
 			var tmp = [];

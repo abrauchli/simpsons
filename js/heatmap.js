@@ -101,7 +101,7 @@ var margin = { top: 100, right: 10, bottom: 50, left: 100 },
         })
                 
         .on("click", function(d,i){
-        console.log("here");
+        //console.log("here");
         if(mode === 0){
 		      mode = 1;
 		      console.log(d3.select("#order").property("selectedIndex", 4));
