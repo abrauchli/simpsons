@@ -269,7 +269,7 @@ function characterList() {
 
 		if (c['gender'] === "M")
 			currentStats['numofMale']++;
-		else if (c['gender'] === "W")
+		else if (c['gender'] === "F")
 			currentStats['numofFemale']++;
 
 		var img = ($.type(c['image']) === 'string' && c['image']
