@@ -1,5 +1,5 @@
 function heatmap(){
-var margin = { top: 150, right: 10, bottom: 50, left: 100 },
+var margin = { top: 100, right: 10, bottom: 50, left: 100 },
   cellSize=40;
   col_number=60;
   row_number=50;
@@ -54,8 +54,9 @@ var margin = { top: 150, right: 10, bottom: 50, left: 100 },
       .attr("class",  function (d,i) { return "colLabel mono c"+i;} )
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
-      .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);d3.select("#order").property("selectedIndex", 4).node().focus();;})
-      ;
+      .on("click", function(d,i) {	
+      	colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);d3.select("#order").property("selectedIndex", 4).node().focus();;      	      
+      });
 
   var heatMap = svg.append("g").attr("class","g3")
         .selectAll(".cellg")
@@ -68,7 +69,7 @@ var margin = { top: 150, right: 10, bottom: 50, left: 100 },
         .attr("width", cellSize)
         .attr("height", cellSize)
         .style("fill", function(d) { return colorScale(d.value); })
-        /* .on("click", function(d) {
+        /*.on("click", function(d) {
                var rowtext=d3.select(".r"+(d.row-1));
                if(rowtext.classed("text-selected")==false){
                    rowtext.classed("text-selected",true);
@@ -90,13 +91,34 @@ var margin = { top: 150, right: 10, bottom: 50, left: 100 },
                  .text("Apearances: "+d.value);  
                //Show the tooltip
                d3.select("#tooltip").classed("hidden", false);
-        })
+               
+        })        
         .on("mouseout", function(){
                d3.select(this).classed("cell-hover",false);
                d3.selectAll(".rowLabel").classed("text-highlight",false);
                d3.selectAll(".colLabel").classed("text-highlight",false);
                d3.select("#tooltip").classed("hidden", true);
         })
+        /*        
+        .on("click", function(d,i){
+        console.log("here");
+        if(mode === 0){
+		      mode = 1;
+		      console.log(d3.select("#order").property("selectedIndex", 4));
+		      var selectObj = document.getElementById('characterSelect');		   
+			  var evt = document.createEvent("HTMLEvents");   //create a event
+			  evt.initEvent("change", false, true);	//intial the event
+			  selectObj.dispatchEvent(evt);       //dispath the onchange event
+	      }
+	      if(mode === 1){
+		      mode = 0;	      
+		      var selectObj = document.getElementById('characterSelect');		   
+			  var evt = document.createEvent("HTMLEvents");   //create a event
+			  evt.initEvent("change", false, true);	//intial the event
+			  selectObj.dispatchEvent(evt);       //dispath the onchange event
+	      }
+	     })
+	     */
         ;
   
   

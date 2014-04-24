@@ -1,10 +1,13 @@
 var selectedChar = "all";
 
 var data = [];
-var hcrow = [1]; // change to gene name or probe id
-var hccol = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]; // change to gene name or probe id
-var rowLabel = ['Homer Simpson']; // change to gene name or probe id
-var colLabel = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25']; // change to contrast name
+var hcrow = []; 
+var hccol = []; 
+var rowLabel = [];
+var colLabel = []; 
+var numofSeasons = 25;
+
+var mode = 0;   // 0: character|season. 1: character|episode. 2: season|character. 3: episode|character. 4: location|character
 
 var characterFilter = {
 	"filter": 1,
@@ -98,15 +101,44 @@ function main() {
 		} else {
 			img.src="http://wsamarketplace.com/wp-content/themes/classifiedstheme/thumbs/no-image.jpg";
 		}
+		
 		data = [];
-		for (i = 0; i < 25; ++i) {
-			var tmp =[];
-			tmp['row'] = 1;
-			tmp['col'] = i+1;
-			tmp['value'] = 0;
-			data.push(tmp);
-		}	
-		rowLabel[0] = crt['name'];		
+		hcrow = []; 
+		hccol = [];
+		rowLabel = [];
+		colLabel = [];
+		
+		hcrow.push(1);
+		if(mode === 0){
+			for (i = 0; i < numofSeasons; ++i) {
+				var tmp =[];
+				tmp['row'] = 1;
+				tmp['col'] = i+1;
+				tmp['value'] = 0;
+				data.push(tmp);
+				hccol.push(i+1);
+				colLabel.push(i+1);			
+			}		
+			rowLabel[0] = crt['page'];	
+		}
+		else if(mode === 1){
+			for (i = 0; i < numofSeasons; ++i) {
+				var tmp =[];
+				tmp['row'] = 1;
+				tmp['col'] = i+1;
+				tmp['value'] = 0;
+				data.push(tmp);
+				hccol.push(i+1);
+				colLabel.push(i+4);			
+			}		
+			rowLabel[0] = crt['page'];
+		}
+		//console.log(data);
+		//console.log(hcrow);
+		//console.log(hccol);
+		//console.log(rowLabel);
+		//console.log(colLabel);
+		
 		for (c in characters) {
 			if (characters.hasOwnProperty(c)) {
 				if (c === selected){
@@ -150,7 +182,8 @@ function main() {
 		maxHeight: 350
 	});
 
-	$('#seasonSelect').change(function (){
+	$('#seasonSelect').change(function (e){
+		/*
 		var o = document.getElementById("seasonSelect");
 		var str = "";
 		selectedSeasons = [];
@@ -160,7 +193,51 @@ function main() {
 			}
 		}
 		episodeList();
-		//console.log(selectedSeasons);
+		*/
+			
+		/*
+		var selected = this.options[e.target.selectedIndex].value;
+		var selectedSeason = selected;	
+		document.getElementById('chart').innerHTML = '';		
+		//console.log(selectedSeason);
+				
+		data = [];
+		hcrow = []; 
+		hccol = [];
+		rowLabel = [];
+		colLabel = [];	
+		var chars = []
+		rowLabel[0] = "Season" + selectedSeason;
+		hcrow[0] = 1;
+		for (c in characters) {
+			var tmp = [];
+			tmp[0] = c;
+			tmp[1] = 0;
+			for(i = 0; i < characters[c]["appearances"].length; ++i) {				
+				try{
+					if(episodes[characters[c]["appearances"][i]]["s"] == parseInt(selectedSeason)){
+						tmp[1]++;
+						//console.log(episodes[characters[c]["appearances"][i]]);
+					}				
+				}
+				catch(err){
+					
+				}
+			}
+			chars.push(tmp);
+		}		
+		chars = chars.sort(function(a, b){ return (a[1] > b[1] ? -1 : (a[1] < b[1] ? 1 : 0)); });		
+		for (i = 0; i < numofSeasons; ++i) {
+			var tmp =[];
+			tmp['row'] = 1;
+			tmp['col'] = i+1;
+			tmp['value'] = chars[i][1];
+			data.push(tmp);
+			hccol.push(i+1);
+			colLabel.push(chars[i][0]);
+		}
+		heatmap();		
+		*/		
 	});
 
 	$('#episodeSelect').multiselect({
@@ -170,6 +247,7 @@ function main() {
 		maxHeight: 350
 	});
 	$('#episodeSelect').change(function (){
+		/*
 		var o = document.getElementById("episodeSelect");
 		var str = "";
 		selectedEpisodes = [];
@@ -179,6 +257,8 @@ function main() {
 			}
 		}
 		episodeList();
+		*/
+		
 		//console.log(selectedSeasons);
 	});
 
