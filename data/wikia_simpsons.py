@@ -273,10 +273,16 @@ def replace_appearances(dic, characters = False):
         if not ap:
             delkeys.append(k)
 
-    # Special case for Homer Simpson which appears in all episodes but doesn't
-    # have an appearances list
-    if characters and 'Homer Simpson' in dic:
-        dic['Homer Simpson']['appearances'] = list(range(len(episodes)))
+    if characters:
+        # Special case for Homer Simpson which appears in all episodes but doesn't
+        # have an appearances list
+        if 'Homer Simpson' in dic:
+            dic['Homer Simpson']['appearances'] = list(range(len(episodes)))
+
+        # Special case for Maggie Simpson whose appearance list is reversed (where she doesn't appear)
+        if 'Maggie Simpson' in dic:
+            ap = dic['Maggie Simpson']['appearances']
+            dic['Maggie Simpson']['appearances'] = [i for i in range(len(episodes)) if i not in ap]
 
     # remove items with no appearances
     print('Removing charaters/locations beacause of non-canon appearances:', file=sys.stderr)
