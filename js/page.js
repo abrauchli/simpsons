@@ -13,6 +13,7 @@ var characterFilter = {
 	"male": 1,
 	"female": 1,
 	"selectedIndex": -1,
+	"showSingle": false
 }
 
 var selectedSeasons=[];
@@ -26,6 +27,26 @@ var currentStats = {
 var tblItems = 25,
 	tblPage = 0;
 
+function isCharacterFiltered(c) {
+	if (!characterFilter['filter'])
+		return false;
+
+	if ((!characterFilter['male'] && c['gender'] === "M")
+		|| (!characterFilter['female'] && c['gender'] === "W")
+		|| (!characterFilter['showSingle'] && c['appearances'].length === 1))
+		return true;
+
+	var filtered = true,
+		i;
+	for (i = 0; i < c['age'].length; ++i) {
+		if (parseInt(c['age'][i], 10) >= characterFilter['ageMin']
+			&& parseInt(c['age'][i], 10) <= characterFilter['ageMax'], 10) {
+			filtered = false;
+			break;
+		}
+	}
+	return filtered;
+}
 
 function main() {
 	$('.multiselect').multiselect();
@@ -210,7 +231,6 @@ function main() {
 			characterFilter['male'] = 0;
 		}
 		characterList();
-		//console.log(characterFilter);
 	});
 
 	$('#female').change(function(){
@@ -221,6 +241,10 @@ function main() {
 			characterFilter['female'] = 0;
 		}
 		//console.log(characterFilter);
+		characterList();
+	});
+	$('#single').change(function(e) {
+		characterFilter['showSingle'] = e.target.checked;
 		characterList();
 	});
 	$("#ageSlider").slider({});
@@ -240,28 +264,14 @@ function characterList() {
 	currentStats['numofFemale'] = 0;
 	$('#characterSelect').append('<option value="">' + 'Select a character' + '</option>');
 	$.each(characters, function(idx, c) {
-		if (characterFilter['filter']) {
-			if (c['gender'] === "M")
-				currentStats['numofMale']++;
-			else if (c['gender'] === "W")
-				currentStats['numofFemale']++;
+		if (isCharacterFiltered(c))
+			return;
 
-			if ((!characterFilter['male'] && c['gender'] === "M")
-				|| (!characterFilter['female'] && c['gender'] === "W"))
-				return;
+		if (c['gender'] === "M")
+			currentStats['numofMale']++;
+		else if (c['gender'] === "W")
+			currentStats['numofFemale']++;
 
-			var filtered = true,
-				i;
-			for (i = 0; i < c['age'].length; ++i) {
-				if (parseInt(c['age'][i], 10) >= characterFilter['ageMin']
-					&& parseInt(c['age'][i], 10) <= characterFilter['ageMax'], 10) {
-					filtered = false;
-					break;
-				}
-			}
-			if (filtered)
-				return;
-		}
 		var img = ($.type(c['image']) === 'string' && c['image']
 			? ' data-image="data/images/xs/'+ c['image'].substr(c['image'][0] === 'F' ? 5 : 6).replace(/_/g, ' ') + '"'
 			: '');
