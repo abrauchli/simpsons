@@ -296,18 +296,18 @@ function main() {
 	});
 
 	$('#locationSelect').change(function(e){
-		/*
+		
 		var selected = document.getElementById('locationSelect');
 		var selectedIndex = selected.options[selected.selectedIndex].value;
 		//alert(selectedIndex);
 		var img = document.getElementById('selectedLocationIcon');
-		if(images[locations[selectedIndex]['image']]!=undefined){
+		if(images[locations[selectedIndex]['image']]!==undefined){
 			img.src=images[locations[selectedIndex]['image']];
 		}
 		else{
 			img.src="http://wsamarketplace.com/wp-content/themes/classifiedstheme/thumbs/no-image.jpg";
 		}
-		*/
+		
 		
 		var selectedLocation = this.options[e.target.selectedIndex].value;
 		document.getElementById('chart').innerHTML = '';					
@@ -362,8 +362,11 @@ function main() {
 		//alert(selectedIndex);
 		var characterBox = document.getElementById('characterBox');
 		characterBox.innerHTML = "";
-		for(var i=0; i<voiceactors[selectedIndex].length; i++){
-			var html = '<button type="button" class="btn btn-info" onClick="setSelectedValue(\''+voiceactors[selectedIndex][i]+'\')"><img class="characterIcon" src="'+images[characters[voiceactors[selectedIndex][i]]['image']]+'" height="25"></button>';
+		var numofShow = voiceactors[selectedIndex].length<20?voiceactors[selectedIndex].length:20;		
+		for(var i=0; i<numofShow; i++){
+			if(characters[voiceactors[selectedIndex][i]]!==undefined){
+				var html = '<button type="button" class="btn btn-info" onClick="setSelectedValue(\''+voiceactors[selectedIndex][i]+'\')"><img class="characterIcon" src="'+images[characters[voiceactors[selectedIndex][i]]['image']]+'" height="25"></button>';
+			}
 			//alert(html);
 			characterBox.innerHTML += html;
 		}
