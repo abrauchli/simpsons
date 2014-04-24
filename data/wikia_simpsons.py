@@ -215,11 +215,11 @@ def parse_character(page, wiki, character):
 
     gender = '?'
     if t.has('gender'):
-        gen = t.get('gender').value
-        if gen.matches("{{Male}}") or gen.matches("{{male}}") or gen.matches("male"):
-            gender = 'M'
-        elif gen.matches("{{Female}}") or gen.matches("{{female}}") or gen.matches("female"):
+        gen = t.get('gender').value.lower()
+        if "female" in gen:
             gender = 'F'
+        elif "male" in gen:
+            gender = 'M'
 
     c = {
         'page': pagename,
