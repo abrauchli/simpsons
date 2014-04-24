@@ -99,9 +99,9 @@ var margin = { top: 100, right: 10, bottom: 50, left: 100 },
                d3.selectAll(".colLabel").classed("text-highlight",false);
                d3.select("#tooltip").classed("hidden", true);
         })
-        /*        
+                
         .on("click", function(d,i){
-        console.log("here");
+        //console.log("here");
         if(mode === 0){
 		      mode = 1;
 		      console.log(d3.select("#order").property("selectedIndex", 4));
@@ -117,8 +117,7 @@ var margin = { top: 100, right: 10, bottom: 50, left: 100 },
 			  evt.initEvent("change", false, true);	//intial the event
 			  selectObj.dispatchEvent(evt);       //dispath the onchange event
 	      }
-	     })
-	     */
+	     })	     
         ;
   
   
