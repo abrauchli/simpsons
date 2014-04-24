@@ -196,13 +196,15 @@ function D3ok() {
 
   if (selectedChar === 'all' || !characters[selectedChar]) {
     $.each(characters, function(k, o) {
-      if (isCharacterShown)
+      if (isCharacterShown(o))
         addCloneObj(o);
     });
     $.each(data.nodes, function(i, o) {
       $.each(o.cooc, function(ci, e) {
         if (e[1] < 10) // ignore links between all nodes with < 10 coocurrances
           return false; // abort since cooc is sorted
+        if (!idx[e[0]]) // ignore links to hidden characters
+          return;
 
         var tgt = idx[e[0]],
             l = {
