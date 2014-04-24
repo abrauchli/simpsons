@@ -426,7 +426,7 @@ function characterList() {
 			: '');
 		$('#characterSelect').append('<option value="' + c['page'] + '"'+ img +'>' + c['name'] + '</option>');
 	});
-	
+	refreshGraph();
 }
 
 function episodeList(){
