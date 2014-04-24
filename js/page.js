@@ -376,7 +376,7 @@ function main() {
 		else{
 			characterFilter['male'] = 0;
 		}
-		characterList();
+		//characterList();
 	});
 
 	$('#female').change(function(){
@@ -387,18 +387,18 @@ function main() {
 			characterFilter['female'] = 0;
 		}
 		//console.log(characterFilter);
-		characterList();
+		//characterList();
 	});
 	$('#single').change(function(e) {
 		characterFilter['showSingle'] = e.target.checked;
-		characterList();
+		//characterList();
 	});
 	$("#ageSlider").slider({});
 	$("#ageSlider").on('slide', function(slideEvt) {
 		//console.log(slideEvt.value);
 		characterFilter['ageMin'] = slideEvt.value[0];
 		characterFilter['ageMax'] = slideEvt.value[1];
-		characterList();
+		//characterList();
 		//console.log(characterFilter);
 	});	
 	init_data_table();

@@ -170,7 +170,7 @@ function D3ok() {
     if( n.name )
       info += '<div class="f"><span class="l">Full Name</span>: <span class="c">'
            + n.name + '</span></div>';
-    info += '<div class="f"><span class="l"></span><span class="c">' + '<button type="button" class="btn btn-info" onClick="setSelectedValue(\''+n.page+'\');">GO!</button>' + '</span></div>';
+    info += '<div class="f"><span class="l"></span><span class="c">' + '<button type="button" class="btn btn-info btn-sm" onClick="setSelectedValue(\''+n.page+'\');">GO!</button>' + '</span></div>';
     info += '</div>';
 
     return info;
