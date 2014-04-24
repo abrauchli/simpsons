@@ -56,6 +56,7 @@ function refreshGraph() {
 function main() {
 	$('.multiselect').multiselect();
 	characterList();
+	refreshGraph();
 	episodeList();
 	locationList();
 	voiceActorList();
@@ -365,7 +366,7 @@ function main() {
 		var characterBox = document.getElementById('characterBox');
 		characterBox.innerHTML = "";
 		for(var i=0; i<voiceactors[selectedIndex].length; i++){
-			var html = "<img width='50px' height='100px' src='"+ images[characters[voiceactors[selectedIndex][i]]['image']] +"' alt='"+voiceactors[selectedIndex]+"'>";
+			var html = '<button type="button" class="btn btn-info" onClick="setSelectedValue(\''+voiceactors[selectedIndex][i]+'\')"><img class="characterIcon" src="'+images[characters[voiceactors[selectedIndex][i]]['image']]+'" height="25"></button>';
 			//alert(html);
 			characterBox.innerHTML += html;
 		}
@@ -425,7 +426,7 @@ function characterList() {
 			: '');
 		$('#characterSelect').append('<option value="' + c['page'] + '"'+ img +'>' + c['name'] + '</option>');
 	});
-	refreshGraph();
+	
 }
 
 function episodeList(){
