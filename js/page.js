@@ -25,13 +25,13 @@ var currentStats = {
 var tblItems = 25,
 	tblPage = 0;
 
-function isCharacterFiltered(c) {
-	if (!characterFilter['filter'])
-		return false;
-
+function isCharacterShown(c) {
 	if ((!characterFilter['male'] && c['gender'] === "M")
 		|| (!characterFilter['female'] && c['gender'] === "W")
 		|| (!characterFilter['showSingle'] && c['appearances'].length === 1))
+		return false;
+
+	if (characterFilter.ageMin === 0 && characterFilter.ageMax === 100)
 		return true;
 
 	var filtered = true,
@@ -43,7 +43,8 @@ function isCharacterFiltered(c) {
 			break;
 		}
 	}
-	return filtered;
+	return !filtered;
+}
 
 function refreshGraph() {
 	D3ok();
@@ -265,7 +266,7 @@ function characterList() {
 	currentStats['numofFemale'] = 0;
 	$('#characterSelect').append('<option value="">' + 'Select a character' + '</option>');
 	$.each(characters, function(idx, c) {
-		if (isCharacterFiltered(c))
+		if (!isCharacterShown(c))
 			return;
 
 		if (c['gender'] === "M")

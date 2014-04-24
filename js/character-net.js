@@ -196,7 +196,8 @@ function D3ok() {
 
   if (selectedChar === 'all' || !characters[selectedChar]) {
     $.each(characters, function(k, o) {
-      addCloneObj(o);
+      if (isCharacterShown)
+        addCloneObj(o);
     });
     $.each(data.nodes, function(i, o) {
       $.each(o.cooc, function(ci, e) {
@@ -231,7 +232,9 @@ function D3ok() {
       selectedSize += a[1];
       highChars[a[0]] = a[1];
 
-      addCloneObj(characters[a[0]]);
+      var o = characters[a[0]];
+      if (isCharacterShown(o))
+        addCloneObj(o);
     });
     highChars[selectedChar] = selectedSize / (selectedSize > 0 ? o.cooc[0][1] : 1);
 
